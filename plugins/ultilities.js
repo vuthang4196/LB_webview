@@ -159,7 +159,29 @@ export default function (context, inject) {
   })
   inject('formatUserId', payload => {
     try {
-      return  "******" + payload.value.substring(7);
+      return "******" + payload.value.substring(7);
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  inject('dynamicsort', payload => {
+    try {
+      var sort_order = 1;
+      if (payload.order === "desc") {
+        sort_order = -1;
+      }
+      return function (a, b) {
+        // a should come before b in the sorted order
+        if (a[payload.property] < b[payload.property]) {
+          return -1 * sort_order;
+          // a should come after b in the sorted order
+        } else if (a[payload.property] > b[payload.property]) {
+          return 1 * sort_order;
+          // a and b are the same
+        } else {
+          return 0 * sort_order;
+        }
+      }
     } catch (e) {
       console.log(e)
     }

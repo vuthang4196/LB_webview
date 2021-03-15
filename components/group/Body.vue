@@ -69,7 +69,7 @@ export default {
   components: {},
   methods: {
     goGroupNotDone() {
-      alert("11");
+      this.$redirect({ url: "/momo/group_not_done", samepage: true });
     },
 
     goGroupTop() {
