@@ -1,0 +1,34 @@
+{
+  "name": "NapTheNgay",
+  "version": "1.0.1",
+  "description": "NapTheNgay",
+  "author": "XTEL_HungNQ",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.9.7",
+    "@nuxtjs/google-analytics": "^2.2.3",
+    "@nuxtjs/google-tag-manager": "^2.3.1",
+    "js-cookie": "^2.2.1",
+    "moment": "^2.24.0",
+    "nuxt": "^2.12.2",
+    "uniqid": "^5.2.0",
+    "v-tooltip": "^2.0.3",
+    "vue": "2.6.12",
+    "vue-js-modal": "^1.3.33",
+    "vue-wait": "^1.4.8"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@nuxtjs/vuetify": "^1.11.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "font-awesome": "^4.7.0",
+    "prettier": "^1.16.4"
+  }
+}
