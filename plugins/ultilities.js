@@ -164,6 +164,18 @@ export default function (context, inject) {
       console.log(e)
     }
   })
+  inject('convertSTP', payload => {
+    try {
+      payload.value = payload.value + ""
+      if (payload.value.indexOf("\.") !== -1) {
+        return payload.value;
+      } else {
+        return payload.value + ".0";
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  })
   inject('dynamicsort', payload => {
     try {
       var sort_order = 1;

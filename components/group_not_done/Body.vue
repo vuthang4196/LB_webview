@@ -44,11 +44,15 @@
         placeholder="Tìm kiếm..."
       />
     </div>
-    <div style="height: calc(100vh - 130px)" id="divListGroup">
+    <div
+      style="height: calc(100vh - 130px)"
+      id="divListGroup"
+      v-if="groupData.length > 0"
+    >
       <div class="form-group" v-for="(group, index) in groupData" :key="index">
         <v-row
           class="homeDivTicker homeDivTickerGroupNotDone"
-          @click="goGroupNotDoneDetail(14792)"
+          @click="goGroupNotDoneDetail(group.id)"
         >
           <v-col cols="4" class="group-left" style="padding: 0">
             <div>
@@ -127,7 +131,7 @@ export default {
   },
   methods: {
     goGroupDone() {
-      alert("111");
+      this.$redirect({ url: "/momo/group_done", samepage: true });
     },
     goGroupNotDoneDetail(id) {
       alert(id);
