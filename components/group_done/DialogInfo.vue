@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="modalInfo" width="565">
+    <v-dialog v-model="modalInfo" width="565" @click:outside="$emit('update:modalInfo', false)">
       <v-card>
         <v-card-title
           class="lighten-2 dialog-custom header-dialog-info-group-done"

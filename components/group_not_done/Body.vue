@@ -131,10 +131,13 @@ export default {
   },
   methods: {
     goGroupDone() {
-      this.$redirect({ url: "/momo/group_done", samepage: true });
+      this.$redirect({ url: "/momo/group_done", samepage: false });
     },
     goGroupNotDoneDetail(id) {
-      alert(id);
+      this.$router.push({
+        path: "/momo/group_not_done/" + id,
+        query: {},
+      });
     },
     header655Click() {
       this.category = "23";

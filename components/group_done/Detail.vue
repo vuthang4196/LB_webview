@@ -65,10 +65,6 @@
           :key="i"
           >{{ groupData.currentNumberStatus[i - 1].number }}</span
         >
-        <!-- <span class="step_to">2</span>
-        <span class="step_to">5</span>
-        <span class="step_to">7</span>
-        <span class="step_to">8</span> -->
       </div>
       <p v-else style="display: table; margin: 10px auto; color: #febf10">
         Chưa có bộ số đề cử

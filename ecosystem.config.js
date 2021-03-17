@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'Game Card Xtel',
+      name: 'LuckyBest',
       autorestart: true,
       script: 'npm',
       arg: 'start'

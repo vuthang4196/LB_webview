@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="565">
+    <v-dialog v-model="dialog" width="565"  @click:outside="$emit('update:dialog', false)">
       <v-card>
         <v-card-title class="header-dialog-red lighten-2 dialog-custom">
           <v-col cols="12" class="dialog-custom-col text-right">

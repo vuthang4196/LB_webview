@@ -846,7 +846,7 @@ html {
   text-align: left;
 }
 
-.group-detail #divOtron .step_to {
+.group-detail #divOtron .step_to, .panel-body-group-detail .step_to {
   border: #ec1b30 solid 1px;
   border-radius: 1.5em;
   -moz-border-radius: 1.5em;
@@ -885,13 +885,61 @@ html {
   height: 42px !important;
 }
 
-.group-detail .homeDivTickerGroupDoneDetail .text-custom {
+.group-detail .homeDivTickerGroupNotDoneDetail {
+  padding: 11px 5px;
+  /* margin: 3px; */
+  /* height: 120px; */
+  background-color: white !important;
+  border-radius: 4px !important;
+  position: relative;
+  cursor: pointer !important;
+  border: #aaaaaa solid 1px !important;
+  font-size: 11px !important;
+  width: 100%;
+  height: auto !important;
+}
+
+.group-detail .homeDivTickerGroupDoneDetail .text-custom, .group-detail .homeDivTickerGroupNotDoneDetail .text-custom {
   font-weight: bold;
   width: 100%;
   text-align: left;
   line-height: 12px;
   /* left: 1% !important;
   top: 1% !important; */
+}
+
+.group-detail .homeDivTickerGroupNotDoneDetail .text-custom p.commonText {
+  margin-bottom: 0px !important;
+}
+
+.group-detail .homeDivTickerGroupNotDoneDetail #numberTicket {
+  width: 100%;
+}
+
+.group-detail .homeDivTickerGroupNotDoneDetail #numberTicket .commonTextThin {
+  font-size: 14px !important
+}
+
+.group-detail .btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 
 .header-dialog-info-group-done {
@@ -905,5 +953,20 @@ html {
 
 .modal-body {
   position: relative;
-    padding: 15px;
+  padding: 15px;
+}
+
+.step_draw_red {
+  background-color: red !important;
+  color: white !important;
+  border: red solid 1px !important;
+}
+
+#thamgiaBtn {
+  bottom: 1% !important;
+  position: sticky !important;
+  z-index: 1 !important;
+  background-color: white !important;
+  margin-right: -5px !important;
+  padding-top: 5px !important;
 }

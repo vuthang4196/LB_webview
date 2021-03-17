@@ -198,4 +198,12 @@ export default function (context, inject) {
       console.log(e)
     }
   })
+  inject('getOpenDate', payload => {
+    try {
+      return payload.value.split(" ")[0];
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  
 }

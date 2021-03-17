@@ -112,10 +112,18 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { },
+    babel: {
+      babelrc: false,
+      compact: false
+    }
+
   },
   env: {
     isMaintaining: false,
-    maintenanceTime: '20:00:00 27/03/2020'
-  }
+    maintenanceTime: '20:00:00 27/03/2020',
+    "development": {
+      "compact": false
+    }
+  },
 }

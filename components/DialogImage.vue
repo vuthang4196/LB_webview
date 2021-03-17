@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="showImage">
+    <v-dialog v-model="showImage" @click:outside="$emit('update:showImage', false)">
       <v-card style="padding: 15px">
         <div id="modalImageBody" style="">
           <img
