@@ -710,7 +710,7 @@ html {
 .panel-body-group-not-done .isSelected {
   border-bottom: red solid 1px;
   color: red;
-  padding: 0px 15px;
+  padding: 0px 10px;
 }
 
 .row-group-not-done {
@@ -967,6 +967,111 @@ html {
   position: sticky !important;
   z-index: 1 !important;
   background-color: white !important;
-  margin-right: -5px !important;
+  margin-right: 1px !important;
   padding-top: 5px !important;
+}
+
+.group-detail .SumoSelect {
+  display: inline-block;
+  position: relative;
+  outline: none;
+  width: 100%;
+  font-weight: bold;
+}
+
+.group-detail .SelectClass, .group-detail .SumoUnder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  border: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  line-height: 30px !important;
+}
+
+.group-detail .SumoSelect>.CaptionCont {
+  position: relative;
+  border: 0.5px solid #a9a1a1;
+  min-height: 14px;
+  background-color: #fff;
+  border-radius: 2px;
+  margin: 0;
+}
+
+.group-detail .SumoUnder {
+  height: 100% !important;
+}
+
+.group-detail .SumoSelect>.CaptionCont>label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+}
+
+.group-detail .SumoSelect>.CaptionCont>label>i {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wMdBhAJ/fwnjwAAAGFJREFUKM9jYBh+gBFKuzEwMKQwMDB8xaOWlYGB4T4DA0MrsuapDAwM//HgNwwMDDbYTJuGQ8MHBgYGJ1xOYGNgYJiBpuEpAwODHSF/siDZ+ISBgcGClEDqZ2Bg8B6CkQsAPRga0cpRtDEAAAAASUVORK5CYII=);
+  background-position: center center;
+  width: 16px;
+  height: 16px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+}
+
+.group-detail .SumoSelect>.CaptionCont>span {
+  display: block;
+  padding-right: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: default;
+}
+
+.group-detail .custom-btn {
+  border-radius: 13px !important;
+}
+
+.modal-group-join {
+  padding: 7px !important;
+}
+
+.modal-group-join .cellLoaiHinh {
+  border: none !important;
+  margin: 3px 3px;
+  padding: 5px;
+  font-weight: 700;
+  font-size: 17px;
+  border-radius: 8px
+}
+
+.modal-group-join .cellLoaiHinh .displayNoneSelectedPercent {
+  display: none !important;
+}
+
+.modal-group-join .cellLoaiHinh i {
+  color: #DD0E11;
+  font-size: 23px;
+}
+
+.group-detail #divOtron .otron_checked_num{
+  background-color: red;
+  color: white !important;
+  border: red solid 1px !important;
 }

@@ -58,14 +58,14 @@
     </v-row>
     <v-row style="margin: 0" class="mb-3">
       <div class="commonText">Bộ số đề cử:</div>
-      <div class="" id="divOtron" style="width: 90%" v-if="numberStatus">
+      <v-row class="pl-2 mt-1" id="divOtron" style="width: 90%" v-if="numberStatus">
         <span
           class="step_to"
           v-for="i in parseInt(groupData.groupLevel)"
           :key="i"
           >{{ groupData.currentNumberStatus[i - 1].number }}</span
         >
-      </div>
+      </v-row>
       <p v-else style="display: table; margin: 10px auto; color: #febf10">
         Chưa có bộ số đề cử
       </p>

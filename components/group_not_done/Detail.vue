@@ -74,12 +74,12 @@
       <p v-else style="display: table; margin: 10px auto; color: #febf10">
         Chưa có bộ số đề cử
       </p>
-      <div @click="showModalInfo()">
+      <v-row class="pl-2" @click="showModalInfo()">
         <i
           class="fa fa-info-circle"
           style="font-size: xx-large; margin-top: 50%"
         ></i>
-      </div>
+      </v-row>
     </v-row>
 
     <v-row style="margin-bottom: 10px; margin: 0">
@@ -200,7 +200,10 @@ export default {
   },
   methods: {
     thamgia() {
-      alert("111");
+      this.$router.push({
+        path: '/momo/group_join/' + this.$route.params.id,
+        query: {}
+      })
     },
     showModalInfo() {
       this.modalInfo = true;

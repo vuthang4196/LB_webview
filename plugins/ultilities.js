@@ -205,5 +205,13 @@ export default function (context, inject) {
       console.log(e)
     }
   })
+  inject('getCloseTime', payload => {
+    console.log(payload.value)
+    try {
+      return payload.value.split(" ")[1].substring(0, 5) + " " + value.split(" ")[0];
+    } catch (e) {
+      console.log(e)
+    }
+  })
   
 }
