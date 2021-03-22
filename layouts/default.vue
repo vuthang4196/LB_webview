@@ -7,24 +7,6 @@
       ></v-progress-circular>
     </v-overlay>
 
-    <v-snackbar
-      v-model="$store.state.app.snackBar.show"
-      :timeout="$store.state.app.snackBar.timeout"
-      top
-      right
-      color="blue-grey"
-    >
-      <i class="fa fa-info-circle"></i> {{ $store.state.app.snackBar.msg }}
-      <template>
-        <v-btn
-          color="blue"
-          text
-          @click="$store.dispatch('app/setSnackBar', { show: false, msg: '' })"
-        >
-          x
-        </v-btn>
-      </template>
-    </v-snackbar>
     <v-main>
       <v-container>
         <nuxt />

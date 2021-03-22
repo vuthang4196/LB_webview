@@ -28,6 +28,7 @@ const state = function () {
       msg: '',
       timeout: "2000"
     },
+    wallet: ''
   }
 }
 
@@ -39,16 +40,22 @@ const mutations = {
     state.snackBar.show = payload.show
     state.snackBar.msg = payload.msg
     state.snackBar.timeout = payload.timeout
+  },
+  setWallet(state, payload) {
+    state.wallet = payload
   }
+
 }
 
 const actions = {
   toggleOverlay(vueContext, val) {
     vueContext.commit('TOGGLE_OVERLAY', val)
   },
-
   setSnackBar(vueContext, payload) {
     vueContext.commit('setSnackBar', payload)
+  },
+  setWallet(vueContext, payload) {
+    vueContext.commit('setWallet', payload)
   }
 }
 

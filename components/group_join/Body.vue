@@ -167,12 +167,36 @@
       :percentSelected.sync="percentSelected"
       :dataPercent="dataPercent"
     />
+    <v-snackbar
+      v-model="snackBar.show"
+      :timeout="snackBar.timeout"
+      top
+      right
+      class="custom-snack-bar"
+    >
+      <v-row style="margin: 0">
+        <v-col cols="11" style="padding: 0; padding-top: 10px">
+          <span><i class="fa fa-info-circle"></i> {{ snackBar.msg }}</span>
+        </v-col>
+        <v-col cols="1" class="text-right" style="padding: 0">
+          <v-btn
+            color="blue"
+            class="btn-close-snackbar"
+            text
+            @click="snackBar.show = false"
+          >
+            ×
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
 import DialogInfo from "~/components/group_join/DialogInfo.vue";
 import API from "~/components/group_join/example_data.js";
+import Cookies from "js-cookie";
 export default {
   components: {
     DialogInfo,
@@ -186,20 +210,18 @@ export default {
       selectedNum: [],
       dataPercent: [],
       percentSelected: {},
+      snackBar: {
+        show: false,
+        msg: "",
+        timeout: "3000",
+      },
     };
   },
   mounted() {
     this.$store.dispatch("app/toggleOverlay", true);
     this.getDetailGroup();
+    Cookies.remove('payment')
   },
-   computed: {
-    snackBar () {
-      console.log(this.$store.state.snackBar)
-      // console.log(this)
-      return {...this.$store.state.snackBar}
-    }
-  },
-  
   methods: {
     showModalCoPhan() {
       this.modalInfo = true;
@@ -208,7 +230,6 @@ export default {
     randomNumber() {
       this.selectedNum = [];
       do {
-        console.log(1);
         let random = Math.floor(Math.random() * (this.totalNumber - 1 + 1) + 1);
         if (!this.selectedNum.includes(random)) {
           this.selectedNum.push(random);
@@ -221,11 +242,23 @@ export default {
     },
 
     thamgia() {
-      this.$store.commit("app/setSnackBar", {
-        show: true,
-        timeout: 2000,
-        msg: "1111",
-      });
+      if (this.selectedNum.length == 0) {
+        this.snackBar = {
+          show: true,
+          timeout: 3000,
+          msg: "Bạn phải chọn ít nhất 1 số",
+        };
+      } else {
+        let dataPaymentGroup = {
+          wallet: Cookies.get('wallet'),
+          type: "group",
+          idGroup: this.$route.params.id,
+          selectedNum: this.selectedNum,
+          price: this.percentSelected.amount,
+        };
+        Cookies.set("payment", JSON.stringify(dataPaymentGroup), {});
+        this.$redirect({ url: "/momo/receive", samepage: true });
+      }
     },
     getCloseTime(value) {
       return value.split(" ")[1].substring(0, 5) + " " + value.split(" ")[0];

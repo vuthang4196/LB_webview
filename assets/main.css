@@ -1070,8 +1070,92 @@ html {
   font-size: 23px;
 }
 
-.group-detail #divOtron .otron_checked_num{
+.group-detail #divOtron .otron_checked_num {
   background-color: red;
   color: white !important;
   border: red solid 1px !important;
+}
+
+.custom-snack-bar .v-snack__wrapper {
+  min-width: 70% !important;
+  max-width: 70% !important;
+  color: #8a6d3b !important;
+  background-color: #fcf8e3 !important;
+  border-color: #faebcc !important;
+  margin-top: 1px;
+  margin-right: 15px;
+}
+
+.custom-snack-bar .v-snack__wrapper .v-snack__content {
+  padding: 0px 10px !important;
+}
+
+.custom-snack-bar .btn-close-snackbar {
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  color: #000 !important;
+  text-shadow: 0 1px 0 #fff !important;
+  opacity: .2 !important;
+  min-width: 0;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+
+.panel-body-receive {
+  background-color: #e9eaec !important;
+  padding-bottom: 0;
+  min-height: 445px !important;
+  height: -moz-calc(88vh - 112px);
+  height: -webkit-calc(88vh - 112px);
+  height: -o-calc(88vh - 112px);
+  height: calc(88vh - 112px);
+  padding: 10px !important;
+}
+
+.panel-body-receive label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.panel-body-receive #receiveTickerShowHide .form-group {
+  margin-bottom: 10px !important;
+}
+
+.panel-body-receive #receiveTickerShowHide .btn-link {
+  font-weight: 400;
+  color: #428bca;
+  border-radius: 0;
+}
+
+.panel-danger {
+  border-color: red;
+}
+
+.panel {
+  border: 1px solid transparent;
+}
+
+.custom-btn-receivei-accept {
+  color: #fff !important;
+  background-color: #860D00 !important;
+  border-color: #860D00 !important;
+  padding: 22px 16px !important;
+  font-size: 18px !important;
+  line-height: 1.33;
+  border-radius: 6px;
+  width: 90%;
+  font-weight: 400 !important;
+}
+
+.error-mid-page {
+  background-color: #fff !important;
+}
+.error-mid-page .error-mid-content{
+  padding: 2px 4px;
+  color: #c7254e !important;
+  background-color: #f9f2f4;
+  border-radius: 4px;
 }
