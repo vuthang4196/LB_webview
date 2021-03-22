@@ -397,7 +397,9 @@ export default {
 
     homeOpenKeno() {},
 
-    homeOpenPower655() {},
+    homeOpenPower655() {
+      this.$redirect({ url: "/momo/power655", samepage: true });
+    },
 
     homeOpenMega645() {},
 

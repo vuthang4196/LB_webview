@@ -28,7 +28,8 @@ const state = function () {
       msg: '',
       timeout: "2000"
     },
-    wallet: ''
+    wallet: '',
+    power655typeLevel:  [6, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18],
   }
 }
 

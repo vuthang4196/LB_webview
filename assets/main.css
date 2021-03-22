@@ -427,6 +427,7 @@ html {
 .custom-panel-header table tbody tr td.panel-header-text-left {
   text-align: left !important;
   padding-left: 10px !important;
+  padding-top: 3px !important;
 }
 
 .custom-panel-header table tbody tr td.panel-header-text-right {
@@ -947,7 +948,12 @@ html {
   background-color: #033762 !important;
 }
 
-.header-dialog-info-group-done .title-custom {
+.header-modal-cach-choi {
+  color: white;
+  background-color: #DD0E11 !important;
+}
+
+.header-dialog-info-group-done .title-custom, .header-modal-cach-choi .title-custom {
   font-size: 15px;
 }
 
@@ -971,7 +977,7 @@ html {
   padding-top: 5px !important;
 }
 
-.group-detail .SumoSelect {
+.SumoSelect {
   display: inline-block;
   position: relative;
   outline: none;
@@ -979,7 +985,7 @@ html {
   font-weight: bold;
 }
 
-.group-detail .SelectClass, .group-detail .SumoUnder {
+.SelectClass, .SumoUnder {
   position: absolute;
   top: 0;
   left: 0;
@@ -998,20 +1004,20 @@ html {
   line-height: 30px !important;
 }
 
-.group-detail .SumoSelect>.CaptionCont {
+.SumoSelect>.CaptionCont {
   position: relative;
   border: 0.5px solid #a9a1a1;
   min-height: 14px;
   background-color: #fff;
-  border-radius: 2px;
+  border-radius: 3px;
   margin: 0;
 }
 
-.group-detail .SumoUnder {
+.SumoUnder {
   height: 100% !important;
 }
 
-.group-detail .SumoSelect>.CaptionCont>label {
+.SumoSelect>.CaptionCont>label {
   position: absolute;
   top: 0;
   right: 0;
@@ -1019,7 +1025,7 @@ html {
   width: 30px;
 }
 
-.group-detail .SumoSelect>.CaptionCont>label>i {
+.SumoSelect>.CaptionCont>label>i {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wMdBhAJ/fwnjwAAAGFJREFUKM9jYBh+gBFKuzEwMKQwMDB8xaOWlYGB4T4DA0MrsuapDAwM//HgNwwMDDbYTJuGQ8MHBgYGJ1xOYGNgYJiBpuEpAwODHSF/siDZ+ISBgcGClEDqZ2Bg8B6CkQsAPRga0cpRtDEAAAAASUVORK5CYII=);
   background-position: center center;
   width: 16px;
@@ -1035,7 +1041,7 @@ html {
   opacity: 0.8;
 }
 
-.group-detail .SumoSelect>.CaptionCont>span {
+.SumoSelect>.CaptionCont>span {
   display: block;
   padding-right: 15px;
   text-overflow: ellipsis;
@@ -1153,9 +1159,108 @@ html {
 .error-mid-page {
   background-color: #fff !important;
 }
-.error-mid-page .error-mid-content{
+
+.error-mid-page .error-mid-content {
   padding: 2px 4px;
   color: #c7254e !important;
   background-color: #f9f2f4;
   border-radius: 4px;
+}
+
+.panel {
+  background-color: #fff;
+  border: 1px solid transparent !important;
+}
+
+.panel-danger>.panel-heading {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.panel-common .panel-heading {
+  padding: 8px 15px;
+  height: 100px;
+  background: url('/back.png') no-repeat !important;
+  background-position: center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+
+.panel-common .power655DivLogo {
+  position: relative;
+  height: 53px;
+}
+
+.panel-common .power655DivLogo .luckeybets {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.panel-common .power655DivLogo .power655 {
+  position: absolute;
+  right: 0;
+}
+
+.panel-common .panel-body-common {
+  background-color: #fff !important;
+}
+
+.panel-common .custom-label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.modal-cach-choi .cellLoaiHinh {
+  border: red solid 1.5px;
+  margin: 3px 3px;
+  border-radius: 8px;
+  padding: 5px;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.modal-body-cach-choi {
+  padding: 8px !important;
+}
+
+.power655CircleOrderBao .form-group {
+  margin-bottom: 5px;
+}
+
+.power655Circle {
+  border-top: #999999 solid 1px;
+  padding-top: 10px;
+}
+
+.power655Circle .step {
+  border: #E51E25 solid 1px;
+  border-radius: 1.1em;
+  -moz-border-radius: 1.1em;
+  -webkit-border-radius: 1.1em;
+  color: #333333;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.2em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 2.2em;
+  height: 2.2em;
+  cursor: pointer;
+}
+
+.power655Circle .key {
+  font-size: 17px;
+  margin-right: 11px;
+  font-weight: bold;
+  width: 1.8em;
+  height: 1.8em;
+  line-height: 27px;
+  color: #E51E25;
 }
