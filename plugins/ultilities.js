@@ -206,12 +206,33 @@ export default function (context, inject) {
     }
   })
   inject('getCloseTime', payload => {
-    console.log(payload.value)
     try {
       return payload.value.split(" ")[1].substring(0, 5) + " " + value.split(" ")[0];
     } catch (e) {
       console.log(e)
     }
   })
-  
+  inject('commonBuildABCAll', key => {
+    try {
+      var html = '';
+      if (key == 1) {
+        html = 'A';
+      } else if (key == 2) {
+        html = 'B';
+      } else if (key == 3) {
+        html = 'C';
+      } else if (key == 4) {
+        html = 'D';
+      } else if (key == 5) {
+        html = 'E';
+      } else if (key == 6) {
+        html = 'F';
+      }
+
+      return html;
+    } catch (e) {
+      console.log(e)
+    }
+  })
+
 }

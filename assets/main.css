@@ -1247,7 +1247,7 @@ html {
   display: inline-block;
   font-weight: bold;
   line-height: 2.2em;
-  margin-right: 5px;
+  margin-right: 10px;
   margin-bottom: 5px;
   text-align: center;
   width: 2.2em;
@@ -1263,4 +1263,76 @@ html {
   height: 1.8em;
   line-height: 27px;
   color: #E51E25;
+}
+
+.power655Circle .step_btn {
+  border: #eea236 solid 1px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  color: white;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.5em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 2.3em;
+  height: 2.3em;
+  background-color: #eea236;
+  cursor: pointer;
+}
+
+.power655Circle .fa {
+  font-size: 24px;
+}
+
+.btn-quick-select {
+  width: 100%;
+  border-radius: 13px !important;
+  color: #fff !important;
+  background-color: #ec1b30 !important;
+  border-color: #ec1b30;
+}
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.btn-add-to-cart.btn-primary {
+  width: 97%;
+  border-radius: 13px !important;
+  color: #fff !important;
+  background-color: #428bca !important;
+  border-color: #357ebd !important;
+}
+
+.btn-buy-now {
+  width: 97%;
+  border-radius: 13px !important;
+  color: #fff !important;
+  background-color: #ec1b30 !important;
+  border-color: #ec1b30;
+}
+
+.displayNoneKyQuay {
+  display: none !important;
 }

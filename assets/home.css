@@ -73,7 +73,7 @@
 .panel-body{
     background-color: #860D00;
     padding-top: 15px;
-    min-height: 560px;
+    min-height: 650px;
     height: -moz-calc(100vh - 153px);
     height: -webkit-calc(100vh - 153px);
     height: -o-calc(100vh - 153px);
