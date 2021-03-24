@@ -1,10 +1,6 @@
 <template>
   <div class="text-center modal-cach-choi">
-    <v-dialog
-      v-model="modalKyQuay"
-      width="565"
-      @click:outside="$emit('update:modalKyQuay', false)"
-    >
+    <v-dialog v-model="modalKyQuay" width="565"  persistent>
       <v-card>
         <v-card-title class="lighten-2 dialog-custom header-modal-cach-choi">
           <v-col cols="2" />
@@ -35,13 +31,16 @@
                 <td style="width: 50%">
                   <v-row class="cellLoaiHinh" style="margin: 0">
                     <v-col
-                      cols="6"
+                      cols="10"
                       style="padding: 0; padding-top: 1px"
                       class="text-left px-2"
                     >
-                      <span>Kỳ #{{ item.drawCode }}</span>
+                      <span>
+                        Kỳ #{{ item.drawCode }} - T{{ item.openDate | day }}
+                        {{ item.openDate | moment }}
+                      </span>
                     </v-col>
-                    <v-col cols="6" style="padding: 0" class="text-right px-2">
+                    <v-col cols="2" style="padding: 0" class="text-right px-2">
                       <span
                         :class="{
                           displayNoneKyQuay: !selected.includes(item.drawCode),
@@ -90,12 +89,22 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   props: {
     modalKyQuay: Boolean,
     dataKyQuay: Array,
     selectedKyQuay: Array,
   },
+  filters: {
+    moment: function (date) {
+      return moment(date, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY");
+    },
+    day: function (date) {
+      return parseInt(moment(date, "DD-MM-YYYY HH:mm:ss").format("d")) + 1;
+    },
+  },
+
   data() {
     return {
       selected: null,
@@ -111,7 +120,7 @@ export default {
       } else {
         this.selected.splice(this.selected.indexOf(code), 1);
       }
-      this.$emit('update:selectedKyQuay', this.selected)
+      this.$emit("update:selectedKyQuay", this.selected);
     },
   },
 };

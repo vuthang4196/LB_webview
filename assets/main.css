@@ -1095,6 +1095,9 @@ html {
 .custom-snack-bar .v-snack__wrapper .v-snack__content {
   padding: 0px 10px !important;
 }
+.custom-snack-bar.custom-snack-bar-number .v-snack__wrapper .v-snack__content {
+  padding: 5px 20px !important;
+}
 
 .custom-snack-bar .btn-close-snackbar {
   font-size: 30px !important;
@@ -1335,4 +1338,46 @@ html {
 
 .displayNoneKyQuay {
   display: none !important;
+}
+
+.v-dialog {
+  margin: 24px 10px !important;
+}
+
+.header-dialog-not-done-number {
+  color: white;
+  background-color: #555555 !important;
+}
+
+.header-dialog-done-number {
+  color: white;
+  background-color: #da7545 !important;
+}
+
+.header-number-dialog .selected-row-number {
+  color: #ffe003 !important;
+  font-weight: bold;
+}
+
+.power655CircleModal .step_to {
+  border-radius: 1.5em;
+  -moz-border-radius: 1.5em;
+  -webkit-border-radius: 1.5em;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 3.0em;
+  margin: 2px;
+  text-align: center;
+  width: 3.0em;
+  height: 3.0em;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: black solid 1px;
+}
+
+.power655CircleModal .step_to.step_selected {
+  color: #fff;
+  background-color: red;
+  border: red solid 1px;
 }

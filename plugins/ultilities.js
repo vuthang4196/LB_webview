@@ -234,5 +234,47 @@ export default function (context, inject) {
       console.log(e)
     }
   })
+  inject('commonPower655DefaultMoneyBao', typeBao => {
+    try {
+      var giaveVND = 10000;
+
+      if (typeBao == 5) {
+        giaveVND = 500000;
+      } else if (typeBao == 7) {
+        giaveVND = 70000;
+      } else if (typeBao == 8) {
+        giaveVND = 280000;
+      } else if (typeBao == 9) {
+        giaveVND = 840000;
+      } else if (typeBao == 10) {
+        giaveVND = 2100000;
+      } else if (typeBao == 11) {
+        giaveVND = 4620000;
+      } else if (typeBao == 12) {
+        giaveVND = 9240000;
+      } else if (typeBao == 13) {
+        giaveVND = 17160000;
+      } else if (typeBao == 14) {
+        giaveVND = 30030000;
+      } else if (typeBao == 15) {
+        giaveVND = 50050000;
+      } else if (typeBao == 18) {
+        giaveVND = 185640000;
+      }
+
+      return giaveVND;
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  inject('sortNumber', payload => {
+    try {
+      return function (a, b) {
+        return a - b
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  })
 
 }

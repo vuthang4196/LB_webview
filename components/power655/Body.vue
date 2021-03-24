@@ -77,26 +77,52 @@
                   </td>
                   <td
                     style="width: 75%; text-align: left; padding-left: 15px"
-                    @click="power655OpenModalNumber()"
+                    @click="power655OpenModalNumber(key)"
                   >
                     <span
                       class="step"
                       v-for="index in selectedLevel"
                       :key="index"
-                      >&nbsp;&nbsp;</span
                     >
+                      {{
+                        selectedData[key - 1]
+                          ? selectedData[key - 1][index - 1] < 10
+                            ? "0" + selectedData[key - 1][index - 1]
+                            : selectedData[key - 1][index - 1]
+                          : ""
+                      }}
+                    </span>
                   </td>
                   <td style="text-align: right">
                     <span
                       class="step_btn"
-                      id="idSelectedSpanBong__Key_Btn_6_A"
-                      @click="power655BtnOnclickRandomDel()"
+                      @click="power655BtnOnclickRandom(key)"
+                      :class="{
+                        displayNoneKyQuay:
+                          selectedData[key - 1] &&
+                          selectedData[key - 1].length > 0,
+                      }"
                     >
                       <i
                         style="font-size: 20px; font-weight: 700"
                         class="fa fa-refresh"
                       ></i>
                     </span>
+                    <span
+                      class="step_btn"
+                      @click="power655BtnOnclickDel(key)"
+                      :class="{
+                        displayNoneKyQuay:
+                          selectedData[key - 1] &&
+                          selectedData[key - 1].length == 0,
+                      }"
+                    >
+                      <i
+                        style="font-size: 20px; font-weight: 700"
+                        class="fa fa-trash-o"
+                      ></i>
+                    </span>
+
                     <input type="hidden" value="0" />
                   </td>
                 </tr>
@@ -164,31 +190,56 @@
       :dataKyQuay="dataKyQuay"
       :selectedKyQuay.sync="selectedKyQuay"
     />
+    <ModalNumber
+      v-if="modalNumber"
+      :modalNumber.sync="modalNumber"
+      :selectedLevel="selectedLevel"
+      :selectedKey="selectedKey"
+      :totalNumber="totalNumber"
+      :selectedDataRow.sync="selectedDataRow"
+      @setNewSelectedRow="setNewSelectedRow"
+    />
   </div>
 </template>
 
 <script>
 import ModalCachChoi from "~/components/common/ModalCachChoi.vue";
 import ModalKyQuay from "~/components/common/ModalKyQuay.vue";
+import ModalNumber from "~/components/common/ModalNumber.vue";
 import API from "~/components/common/example_data.js";
+import Cookies from "js-cookie";
 export default {
   components: {
     ModalCachChoi,
     ModalKyQuay,
+    ModalNumber,
   },
   data() {
     return {
       modalCachChoi: false,
       modalKyQuay: false,
+      modalNumber: false,
       typeLevel: [],
       selectedLevel: 6,
       dataKyQuay: [],
       selectedKyQuay: [],
+      selectedData: [],
+      totalNumber: 55,
+      defaultPrice: 0,
+      selectedKey: 0,
+      selectedDataRow: [],
     };
+  },
+  watch: {
+    selectedLevel: function (val) {
+      this.getDefaultPrice();
+    },
   },
   mounted() {
     this.typeLevel = this.$store.state.app.power655typeLevel;
     this.getDataKyQuay();
+    this.setSelectedData();
+    this.getDefaultPrice();
   },
   methods: {
     showModalCachChoi() {
@@ -197,14 +248,44 @@ export default {
     showModalKyQuay() {
       this.modalKyQuay = true;
     },
-    power655BtnOnclickRandomDel() {
-      alert("1111");
+    power655OpenModalNumber(key) {
+      this.selectedKey = key;
+      this.selectedDataRow = this.selectedData[key - 1];
+      this.modalNumber = true;
     },
-    power655OpenModalNumber() {
-      alert("333");
+    power655BtnOnclickRandom(key) {
+      do {
+        let random = Math.floor(Math.random() * (this.totalNumber - 1 + 1) + 1);
+        if (!this.selectedData[key - 1].includes(random)) {
+          this.selectedData[key - 1].push(random);
+          this.selectedData[key - 1].sort(this.$sortNumber());
+        }
+      } while (this.selectedData[key - 1].length < this.selectedLevel);
+      return;
+    },
+    power655BtnOnclickDel(key) {
+      this.selectedData[key - 1].splice(0, this.selectedLevel);
+      return;
     },
     power655BtnToChonnhanh() {
-      alert("444");
+      for (
+        var i = 0;
+        i < this.$store.state.app.numberRowLevel[this.selectedLevel];
+        i++
+      ) {
+        if (this.selectedData[i].length == 0) {
+          do {
+            let random = Math.floor(
+              Math.random() * (this.totalNumber - 1 + 1) + 1
+            );
+            if (!this.selectedData[i].includes(random)) {
+              this.selectedData[i].push(random);
+              this.selectedData[i].sort(this.$sortNumber());
+            }
+          } while (this.selectedData[i].length < this.selectedLevel);
+          return;
+        }
+      }
     },
     getDataKyQuay() {
       let data = API.data.filter((value, index) => {
@@ -212,6 +293,27 @@ export default {
       });
       this.dataKyQuay = data;
       this.selectedKyQuay.push(this.dataKyQuay[0].drawCode);
+    },
+    setSelectedData() {
+      let arr = [];
+      for (
+        var i = 0;
+        i < this.$store.state.app.numberRowLevel[this.selectedLevel];
+        i++
+      ) {
+        arr[i] = [];
+      }
+      this.selectedData = arr;
+    },
+
+    getDefaultPrice() {
+      this.defaultPrice = this.$commonPower655DefaultMoneyBao(
+        this.selectedLevel
+      );
+    },
+    setNewSelectedRow(key, selected) {
+      this.selectedData[key - 1] = selected;
+      this.modalNumber = false;
     },
   },
 };
