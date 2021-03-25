@@ -10,12 +10,12 @@
             <td class="panel-header-text-center" @click="returnHome()">
               TRANG CHỦ
             </td>
-            <td class="panel-header-text-right">
+            <td class="panel-header-text-right" @click="goToCartPage()">
               <v-icon dark size="17">fa fa-shopping-cart</v-icon>
               &nbsp;
-              <span id="homeMuabaoBasketNumberTotal" class="step-basket"
-                >0</span
-              >
+              <span id="homeMuabaoBasketNumberTotal" class="step-basket">
+                {{ thisTotalCart }}
+              </span>
               <span @click="returnHome()">
                 <v-icon dark size="17">fa fa-home</v-icon>
               </span>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
@@ -55,11 +56,25 @@ export default {
           src: "/banner.jpg",
         },
       ],
+      thisTotalCart: 0,
     };
+  },
+  mounted() {
+    this.getTotalCart();
   },
   methods: {
     returnHome() {
       this.$redirect({ url: "/momo/home", samepage: false });
+    },
+    goToCartPage() {
+      this.$redirect({ url: "/momo/basket", samepage: true });
+    },
+    getTotalCart() {
+      let cartPower655 =
+        Cookies.get("LUCKYBEST_Power655") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+          : [];
+      this.thisTotalCart = this.thisTotalCart + cartPower655.length;
     },
   },
 };

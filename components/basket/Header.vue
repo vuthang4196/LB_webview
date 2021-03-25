@@ -1,13 +1,13 @@
 <template>
   <section>
     <div
-      class="container custom-panel-header panel-home"
+      class="container custom-panel-header"
       :style="{ 'background-color': color + '!important' }"
     >
       <table>
         <tbody>
           <tr>
-            <td class="panel-header-text-left">
+            <td class="panel-header-text-left" style="width: 10%">
               <span @click="returnHome()"
                 ><v-icon
                   style="
@@ -20,15 +20,10 @@
               >
               <br />
             </td>
-            <td class="panel-header-text-center" @click="returnHome()">
-              LuckyBest
+            <td class="panel-header-text-center" @click="returnHome()" style="width: 80%; color: #fff">
+              Chi tiết giỏ hàng
             </td>
-            <td class="panel-header-text-right" @click="goToCartPage()">
-              <v-icon dark size="17">fa fa-shopping-cart</v-icon>
-              &nbsp;
-              <span id="homeMuabaoBasketNumberTotal" class="step-basket">
-                {{ thisTotalCart }}
-              </span>
+            <td class="panel-header-text-right" @click="goToCartPage()" style="width: 10%">
               <span @click="returnHome()">
                 <v-icon dark size="17">fa fa-home</v-icon>
               </span>
@@ -47,27 +42,10 @@ export default {
   props: {
     color: String,
   },
-  data() {
-    return {
-      thisTotalCart: 0,
-    };
-  },
-  mounted() {
-    this.getTotalCart();
-  },
+
   methods: {
     returnHome() {
       this.$redirect({ url: "/momo/home", samepage: false });
-    },
-    goToCartPage() {
-      this.$redirect({ url: "/momo/basket", samepage: true });
-    },
-    getTotalCart() {
-      let cartPower655 =
-        Cookies.get("LUCKYBEST_Power655") !== undefined
-          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
-          : [];
-      this.thisTotalCart = this.thisTotalCart + cartPower655.length;
     },
   },
 };

@@ -136,9 +136,11 @@
     <div class="form-group mb-3">
       <div class="power655Circle text-right">
         <strong>Tạm tính:</strong>
-        <strong style="color: red"
-          ><span id="power655CountAllMoney">10.000</span>đ</strong
-        >
+        <strong style="color: red">
+          <span id="power655CountAllMoney">
+            {{ $formatMoney({ amount: totalPrice }) }}đ
+          </span>
+        </strong>
       </div>
     </div>
 
@@ -156,7 +158,7 @@
         <v-col cols="6" style="padding: 0" class="text-center">
           <v-btn
             type="button"
-            onclick="power655BtnAddBasket();"
+            @click="power655BtnAddBasket()"
             class="btn btn-primary btn-block btn-md btn-add-to-cart"
           >
             <i class="fa fa-plus" style="font-size: xx-small; margin: 0"></i>
@@ -177,6 +179,30 @@
         </v-col>
       </v-row>
     </div>
+
+    <v-snackbar
+      v-model="snackBar.show"
+      :timeout="snackBar.timeout"
+      top
+      right
+      class="custom-snack-bar custom-snack-bar-number"
+    >
+      <v-row style="margin: 0">
+        <v-col cols="11" style="padding: 0; padding-top: 10px">
+          <span><i class="fa fa-info-circle"></i> {{ snackBar.msg }}</span>
+        </v-col>
+        <v-col cols="1" class="text-right" style="padding: 0">
+          <v-btn
+            color="blue"
+            class="btn-close-snackbar"
+            text
+            @click="snackBar.show = false"
+          >
+            ×
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-snackbar>
 
     <ModalCachChoi
       v-if="modalCachChoi"
@@ -228,17 +254,38 @@ export default {
       defaultPrice: 0,
       selectedKey: 0,
       selectedDataRow: [],
+      totalPrice: 0,
+      defaultCategory: 3,
+      snackBar: {
+        show: false,
+        msg: "",
+        timeout: "3000",
+      },
     };
   },
   watch: {
     selectedLevel: function (val) {
       this.getDefaultPrice();
+      this.setDefaultSelectedData();
+    },
+    selectedData: function (val) {
+      let selected = val.filter(function (item, key) {
+        return item.length > 0;
+      });
+      this.totalPrice =
+        this.defaultPrice * selected.length * this.selectedKyQuay.length;
+    },
+    selectedKyQuay: function (val) {
+      let selected = this.selectedData.filter(function (item, key) {
+        return item.length > 0;
+      });
+      this.totalPrice = this.defaultPrice * selected.length * val.length;
     },
   },
   mounted() {
     this.typeLevel = this.$store.state.app.power655typeLevel;
     this.getDataKyQuay();
-    this.setSelectedData();
+    this.setDefaultSelectedData();
     this.getDefaultPrice();
   },
   methods: {
@@ -289,12 +336,12 @@ export default {
     },
     getDataKyQuay() {
       let data = API.data.filter((value, index) => {
-        return value.category == 3;
+        return value.category == this.defaultCategory;
       });
       this.dataKyQuay = data;
       this.selectedKyQuay.push(this.dataKyQuay[0].drawCode);
     },
-    setSelectedData() {
+    setDefaultSelectedData() {
       let arr = [];
       for (
         var i = 0;
@@ -314,6 +361,42 @@ export default {
     setNewSelectedRow(key, selected) {
       this.selectedData[key - 1] = selected;
       this.modalNumber = false;
+    },
+
+    power655BtnAddBasket() {
+      let data = this.selectedData.filter(function (item, key) {
+        return item.length > 0;
+      });
+      if (data.length == 0) {
+        let msg = "Bạn chưa chọn bộ số nào";
+        this.snackBar = {
+          show: true,
+          timeout: 3000,
+          msg: msg,
+        };
+      } else {
+        let cart =
+          Cookies.get("LUCKYBEST_Power655") !== undefined
+            ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+            : [];
+        let dataSelectedKyQuay = this.selectedKyQuay;
+        let kyQuay = this.dataKyQuay.filter(function (item, key) {
+          return dataSelectedKyQuay.includes(item.drawCode);
+        });
+        let selectedData = this.selectedData
+
+        let dataCart = {
+          numbers: data, 
+          level: this.selectedLevel,
+          tickets: kyQuay,
+          category: this.defaultCategory,
+          totalPrice: this.totalPrice
+        }
+        cart.push(dataCart)
+        Cookies.set("LUCKYBEST_Power655", JSON.stringify(cart), {});
+        this.setDefaultSelectedData();
+        console.log(cart);
+      }
     },
   },
 };
