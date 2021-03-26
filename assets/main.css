@@ -1389,7 +1389,7 @@ html {
   padding: 0.01em 16px;
   border-radius: 3px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)!important;
-  z-index: 9999;
+  z-index: 99;
 }
 
 .basket-group-baobao img {
@@ -1432,7 +1432,8 @@ html {
   text-align: center;
   width: 1.4em;
   height: 1.4em;
-  z-index: 9999;
+  z-index: 99;
+  margin-right: 4px;
 }
 
 .basketCircle .step_btn {
@@ -1451,7 +1452,7 @@ html {
   height: 1.8em;
   background-color: #a9a9a9;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 99;
 }
 
 .basket-font-size-ky {
@@ -1466,4 +1467,62 @@ html {
 
 .basket-font-size-money {
   font-size: 13px;
+}
+
+.panel-body-basket {
+  position: relative;
+  background-color: #e9eaec !important;
+  padding-bottom: 0;
+  min-height: 445px !important;
+  height: -moz-calc(88vh - 112px);
+  height: -webkit-calc(88vh - 112px);
+  height: -o-calc(88vh - 112px);
+  height: calc(88vh - 112px);
+  padding: 10px !important;
+  overflow-y: auto;
+}
+
+.basket-font-size-money {
+  font-size: 13px;
+}
+
+.btn-basket-footer {
+  width: 100% !important;
+}
+
+.btn-basket-footer.btn-primary {
+  color: #fff !important;
+  background-color: #428bca !important;
+  border-color: #357ebd;
+}
+
+.btn-basket-footer.btn-danger {
+  color: #fff !important;
+  background-color: #ec1b30 !important;
+  border-color: #ec1b30;
+}
+
+.modal-footer-basktet-del .baset-btn-del {
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  border-radius: 3px !important;
+  text-transform: unset !important;
+}
+
+.modal-footer-basktet-del .baset-btn-del.basket-btn-del-confirm {
+  color: #fff !important;
+  background-color: #f0ad4e !important;
+  border-color: #eea236 !important;
+}
+
+.modal-footer-basktet-del .baset-btn-del.basket-btn-del-cancel {
+  color: #333 !important;
+  background-color: #fff !important;
+  border-color: #ccc !important;
+}
+
+.modal-footer-basktet-del {
+  padding: 15px !important;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
 }

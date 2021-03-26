@@ -369,11 +369,7 @@ export default {
       });
       if (data.length == 0) {
         let msg = "Bạn chưa chọn bộ số nào";
-        this.snackBar = {
-          show: true,
-          timeout: 3000,
-          msg: msg,
-        };
+        this.setContentSnackBar(msg);
       } else {
         let cart =
           Cookies.get("LUCKYBEST_Power655") !== undefined
@@ -383,20 +379,40 @@ export default {
         let kyQuay = this.dataKyQuay.filter(function (item, key) {
           return dataSelectedKyQuay.includes(item.drawCode);
         });
-        let selectedData = this.selectedData
 
-        let dataCart = {
-          numbers: data, 
-          level: this.selectedLevel,
-          tickets: kyQuay,
-          category: this.defaultCategory,
-          totalPrice: this.totalPrice
+        let cartPrice = 0;
+        cart.map(function (item, index) {
+          cartPrice = cartPrice + item.totalPrice;
+        });
+        if (cartPrice > 50000000) {
+          let msg =
+            "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
+          this.setContentSnackBar(msg);
+        } else {
+          let dataCart = {
+            numbers: data,
+            level: this.selectedLevel,
+            tickets: kyQuay,
+            category: this.defaultCategory,
+            totalPrice: this.totalPrice,
+          };
+          cart.push(dataCart);
+          Cookies.set("LUCKYBEST_Power655", JSON.stringify(cart), {});
+          this.setDefaultSelectedData();
+          let msg = "Thêm vào giỏ hàng thành công";
+          this.setContentSnackBar(msg);
+
+          this.$store.dispatch("app/setCookieCartChange", true);
         }
-        cart.push(dataCart)
-        Cookies.set("LUCKYBEST_Power655", JSON.stringify(cart), {});
-        this.setDefaultSelectedData();
-        console.log(cart);
       }
+    },
+
+    setContentSnackBar(msg) {
+      this.snackBar = {
+        show: true,
+        timeout: 3000,
+        msg: msg,
+      };
     },
   },
 };

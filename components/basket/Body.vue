@@ -1,132 +1,258 @@
 <template>
   <section>
-    <div class="panel-body panel-body-receive" style="min-height: 445px">
+    <div class="panel-body panel-body-basket" style="min-height: 445px">
       <div id="basketBodyDataAllBao">
-        <div class="form-group">
-          <div class="basket-group-baobao">
-            <img src="/power655_logo.png" width="80px" height="auto" />
-            <!-- Level -->
-            <div class="form-group text-center">
-              <p style="padding-top: 7px"></p>
-              <p class="basket-group-level">Vé thường</p>
-              <p></p>
-            </div>
-            <!-- Numbers -->
-            <div class="basketCircle">
-              <table style="width: 100%">
-                <tbody>
-                  <tr>
-                    <td style="width: 10%">
-                      <span class="key">A</span>
-                    </td>
-                    <td style="width: 70%">
-                      <span class="step">01</span> <span class="step">04</span>
-                      <span class="step">23</span> <span class="step">24</span>
-                      <span class="step">37</span> <span class="step">55</span>
-                    </td>
-                    <td style="text-align: right; padding-right: 10px">
-                      <span class="step_btn" @click="cancelNumberRow()">
-                        <i class="fa fa-trash-o"></i>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 10%"><span class="key">B</span></td>
-                    <td style="width: 70%">
-                      <span class="step">01</span> <span class="step">12</span>
-                      <span class="step">21</span> <span class="step">28</span>
-                      <span class="step">43</span> <span class="step">49</span>
-                    </td>
-                    <td style="text-align: right; padding-right: 10px">
-                      <span
-                        class="step_btn"
-                        onclick="basketPower655CancelDaysoByDonhangOne('B 01 12 21 28 43 49 ','6_B','2');"
-                      >
-                        <i class="fa fa-trash-o"></i>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 10%"><span class="key">C</span></td>
-                    <td style="width: 70%">
-                      <span class="step">19</span> <span class="step">22</span>
-                      <span class="step">24</span> <span class="step">36</span>
-                      <span class="step">37</span> <span class="step">42</span>
-                    </td>
-                    <td style="text-align: right; padding-right: 10px">
-                      <span
-                        class="step_btn"
-                        onclick="basketPower655CancelDaysoByDonhangOne('C 19 22 24 36 37 42 ','6_C','2');"
-                      >
-                        <i class="fa fa-trash-o"></i>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <section
+          class="baske-item"
+          v-for="(item, index) in dataCart"
+          :key="index"
+        >
+          <div class="form-group mb-3" v-if="item.category == 3">
+            <div class="basket-group-baobao">
+              <img src="/power655_logo.png" width="80px" height="auto" />
+              <!-- Level -->
+              <div class="form-group text-center">
+                <p style="padding-top: 7px"></p>
+                <p class="basket-group-level">
+                  {{ item.level == 6 ? " Vé thường" : "Bao " + item.level }}
+                </p>
+                <p></p>
+              </div>
+              <!-- Numbers -->
+              <div class="basketCircle">
+                <table style="width: 100%">
+                  <tbody>
+                    <tr v-for="(nums, key) in item.numbers" :key="key">
+                      <td style="width: 10%">
+                        <span class="key">{{
+                          $commonBuildABCAll(key + 1)
+                        }}</span>
+                      </td>
+                      <td style="width: 70%">
+                        <span class="step" v-for="(num, i) in nums" :key="i">
+                          {{ num < 10 ? "0" + num : num }}
+                        </span>
+                      </td>
+                      <td style="text-align: right; padding-right: 10px">
+                        <span
+                          class="step_btn"
+                          @click="cancelNumberRowPower655(index, key, item.category)"
+                        >
+                          <i class="fa fa-trash-o"></i>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-            <br />
-            <!-- Ky Quay -->
-            <v-row style="margin: 0" class="basket-font-size-ky">
-              <v-col cols="3" style="padding: 0" class="pl-1">
-                <p><strong>Kỳ :</strong> #00558</p>
-              </v-col>
-              <v-col cols="9" style="padding: 0">
-                <p><strong>Ngày :</strong> T7 27/03/2021</p>
-              </v-col>
-            </v-row>
-            <v-row style="margin: 0" class="basket-font-size-ky">
-              <v-col cols="3" style="padding: 0" class="pl-1">
-                <p><strong>Kỳ :</strong> #00559</p>
-              </v-col>
-              <v-col cols="9" style="padding: 0">
-                <p><strong>Ngày :</strong> T3 30/03/2021</p>
-              </v-col>
-            </v-row>
-            <v-row style="margin: 0" class="basket-font-size-ky">
-              <v-col cols="3" style="padding: 0" class="pl-1">
-                <p><strong>Kỳ :</strong> #00560</p>
-              </v-col>
-              <v-col cols="9" style="padding: 0">
-                <p><strong>Ngày :</strong> T5 01/04/2021</p>
-              </v-col>
-            </v-row>
-
-            <!-- Price -->
-            <div class="form-group basket-border-top mb-3">
-              <v-row class="basket-font-size-money" style="margin:0">
-                <v-col cols="8" class="text-left pl-1" style="padding:0">
-                  <strong>
-                    VÉ 1 : <span style="color: red">90.000đ</span>
-                  </strong>
+              <br />
+              <!-- Ky Quay -->
+              <v-row
+                style="margin: 0"
+                class="basket-font-size-ky"
+                v-for="(ticket, t) in item.tickets"
+                :key="t"
+              >
+                <v-col cols="3" style="padding: 0" class="pl-1">
+                  <p><strong>Kỳ :</strong> #{{ ticket.drawCode }}</p>
                 </v-col>
-                <v-col cols="4" class="text-right" style="padding:0">
-                  <a
-                    onclick="basketPower655CancelDonhangOne(2,1);"
-                    href="javascript:void(0)"
-                  >
-                    <i
-                      class="fa fa-trash-o"
-                      style="color: red; font-size: 14px"
-                    ></i>
-                    <strong>HỦY VÉ</strong>
-                  </a>
+                <v-col cols="9" style="padding: 0">
+                  <p>
+                    <strong>Ngày :</strong>
+                    T{{ ticket.openDate | day }} {{ ticket.openDate | time }}
+                  </p>
                 </v-col>
               </v-row>
+
+              <!-- Price -->
+              <div class="form-group basket-border-top mb-3">
+                <v-row class="basket-font-size-money" style="margin: 0">
+                  <v-col cols="8" class="text-left pl-1" style="padding: 0">
+                    <strong>
+                      VÉ {{ index + 1 }} :
+                      <span style="color: red">
+                        {{ $formatMoney({ amount: item.totalPrice }) }}đ
+                      </span>
+                    </strong>
+                  </v-col>
+                  <v-col cols="4" class="text-right" style="padding: 0">
+                    <a
+                      onclick="basketPower655CancelDonhangOne(2,1);"
+                      href="javascript:void(0)"
+                    >
+                      <i
+                        class="fa fa-trash-o"
+                        style="color: red; font-size: 14px"
+                      ></i>
+                      <strong>HỦY VÉ</strong>
+                    </a>
+                  </v-col>
+                </v-row>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
+
+    <!-- Footer -->
+    <div class="panel-footer text-center">
+      <div class="form-group px-2">
+        <v-row style="margin: 0" class="basket-font-size-money">
+          <v-col cols="4" class="text-left pb-1">
+            <strong>Tổng</strong>
+          </v-col>
+          <v-col cols="8" class="text-right pb-1">
+            <strong>
+              <span id="basketBodyDataTotalMoney" style="color: red">
+                {{ $formatMoney({ amount: totalPrice }) }}đ
+              </span>
+            </strong>
+          </v-col>
+        </v-row>
+      </div>
+      <div class="form-group px-2">
+        <v-row style="margin: 0">
+          <v-col cols="6" style="padding: 0" class="px-2">
+            <v-btn
+              type="button"
+              @click="basketBack()"
+              class="btn btn-primary btn-block btn-md btn-basket-footer"
+            >
+              MUA THÊM
+            </v-btn>
+          </v-col>
+          <v-col cols="6" style="padding: 0" class="px-2">
+            <v-btn
+              id="basketBtnContinueOK"
+              type="button"
+              @click="basketBtnClickOrderContinue()"
+              class="btn btn-danger btn-block btn-md btn-md btn-basket-footer"
+            >
+              THANH TOÁN
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+    </div>
+
+    <!-- Modal Confirm -->
+    <v-dialog
+      style="margin: 10px !important"
+      v-model="modalDelRow"
+      width="500"
+      persistent
+    >
+      <v-card
+        style="
+          background-color: #c32d3c;
+          color: white !important;
+          border-radius: 0;
+        "
+      >
+        <div class="modal-body">
+          <div class="bootbox-body">{{ msgConfirm }}</div>
+        </div>
+        <div class="modal-footer modal-footer-basktet-del">
+          <v-btn
+            small
+            type="button"
+            class="baset-btn-del basket-btn-del-cancel"
+            @click="closeConfirmDel()"
+          >
+            Đóng
+          </v-btn>
+          <v-btn
+            small
+            type="button"
+            class="baset-btn-del basket-btn-del-confirm"
+            @click="delTicket()"
+          >
+            Đồng ý
+          </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
 <script>
+import Cookies from "js-cookie";
+import moment from "moment";
 export default {
+  data() {
+    return {
+      dataCart: [],
+      totalPrice: 0,
+      modalDelRow: false,
+      msgConfirm: "",
+      indexDelOne: null,
+      numRowDelOne: null,
+      delCategory: null,
+      delOne: false,
+    };
+  },
+  filters: {
+    time: function (date) {
+      return moment(date, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY");
+    },
+    day: function (date) {
+      return parseInt(moment(date, "DD-MM-YYYY HH:mm:ss").format("d")) + 1;
+    },
+  },
+  mounted() {
+    this.getDataCartPower655();
+  },
   methods: {
-    cancelNumberRow() {
-      alert("111");
+    cancelNumberRowPower655(itemCart, rowNum, catRow) {
+      let strRow = this.$commonBuildABCAll(rowNum + 1);
+      let strNums = this.dataCart[itemCart].numbers[rowNum].toString();
+      strNums = strNums.replaceAll(",", " ");
+      this.msgConfirm = "Xóa : " + strRow + " " + strNums + " ?";
+      this.indexDelOne = itemCart;
+      this.numRowDelOne = rowNum;
+      this.delCategory = catRow;
+      this.delOne = true;
+      this.modalDelRow = true;
+    },
+    delTicket() {
+      if (this.delOne == true) {
+        if (this.delCategory == 3) {
+          this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
+        }
+      }
+    },
+
+    closeConfirmDel() {
+      this.indexDelOne = null;
+      this.numRowDelOne = null;
+      this.delCategory = null;
+      this.msgConfirm = "";
+      this.delOne = false;
+      this.modalDelRow = false;
+    },
+    basketBtnClickOrderContinue() {
+      alert("222");
+    },
+    basketBack() {
+      this.$redirect({ url: "/momo/home", samepage: true });
+    },
+    getDataCartPower655() {
+      let arrCart = this.dataCart;
+      let price = this.totalPrice;
+      let cartPower655 =
+        Cookies.get("LUCKYBEST_Power655") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+          : [];
+      cartPower655.map(function (item, index) {
+        arrCart.push(item);
+        price = price + item.totalPrice;
+      });
+      this.dataCart = arrCart;
+      this.totalPrice = price;
+      console.log(this.dataCart);
+      console.log(this.totalPrice);
     },
   },
 };

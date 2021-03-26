@@ -43,7 +43,8 @@ const state = function () {
       14: 2,
       15: 2,
       18: 2,
-    }
+    },
+    cookieCartChange: false,
   }
 }
 
@@ -58,6 +59,9 @@ const mutations = {
   },
   setWallet(state, payload) {
     state.wallet = payload
+  },
+  setCookieCartChange(state, payload) {
+    state.cookieCartChange = payload
   }
 
 }
@@ -71,6 +75,9 @@ const actions = {
   },
   setWallet(vueContext, payload) {
     vueContext.commit('setWallet', payload)
+  },
+  setCookieCartChange(vueContext, payload) {
+    vueContext.commit('setCookieCartChange', payload)
   }
 }
 

@@ -23,7 +23,7 @@
             <td class="panel-header-text-center" @click="returnHome()" style="width: 80%; color: #fff">
               Chi tiết giỏ hàng
             </td>
-            <td class="panel-header-text-right" @click="goToCartPage()" style="width: 10%">
+            <td class="panel-header-text-right" @click="returnHome()" style="width: 10%">
               <span @click="returnHome()">
                 <v-icon dark size="17">fa fa-home</v-icon>
               </span>

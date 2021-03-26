@@ -55,6 +55,13 @@ export default {
   mounted() {
     this.getTotalCart();
   },
+  watch:{
+    '$store.state.app.cookieCartChange': function (val) {
+      if (val == true) {
+        this.getTotalCart()
+      }
+    }
+  },
   methods: {
     returnHome() {
       this.$redirect({ url: "/momo/home", samepage: false });
@@ -63,11 +70,15 @@ export default {
       this.$redirect({ url: "/momo/basket", samepage: true });
     },
     getTotalCart() {
+      this.thisTotalCart = 0;
       let cartPower655 =
         Cookies.get("LUCKYBEST_Power655") !== undefined
           ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
           : [];
       this.thisTotalCart = this.thisTotalCart + cartPower655.length;
+      console.log(cartPower655)
+      this.$store.dispatch('app/setCookieCartChange', false);
+
     },
   },
 };
