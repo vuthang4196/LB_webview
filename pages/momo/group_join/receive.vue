@@ -10,7 +10,7 @@
 
 <script>
 import Header from "~/components/group_done/Header.vue";
-import Body from "~/components/receive/Body.vue";
+import Body from "~/components/group_join/RecevieBody.vue";
 import Cookies from "js-cookie";
 export default {
   components: {
@@ -25,7 +25,16 @@ export default {
   mounted() {},
   methods: {
     actionBack() {
-     this.$redirect({ url: "/momo/basket", samepage: true });
+      let payment = Cookies.get("payment");
+      payment = JSON.parse(payment);
+      if (payment.type == "group") {
+        this.$router.push({
+          path: "/momo/group_join/" + payment.idGroup,
+          query: {},
+        });
+      } else {
+        alert('111');
+      }
     },
   },
 };

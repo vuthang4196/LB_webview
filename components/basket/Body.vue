@@ -36,7 +36,9 @@
                       <td style="text-align: right; padding-right: 10px">
                         <span
                           class="step_btn"
-                          @click="cancelNumberRowPower655(index, key, item.category)"
+                          @click="
+                            cancelNumberRowPower655(index, key, item.category)
+                          "
                         >
                           <i class="fa fa-trash-o"></i>
                         </span>
@@ -78,7 +80,7 @@
                   </v-col>
                   <v-col cols="4" class="text-right" style="padding: 0">
                     <a
-                      onclick="basketPower655CancelDonhangOne(2,1);"
+                      @click="basketPower655CancelDonhang(index, item.category)"
                       href="javascript:void(0)"
                     >
                       <i
@@ -167,6 +169,16 @@
             small
             type="button"
             class="baset-btn-del basket-btn-del-confirm"
+            v-if="delOne == true"
+            @click="delRowTicket()"
+          >
+            Đồng ý
+          </v-btn>
+          <v-btn
+            small
+            type="button"
+            class="baset-btn-del basket-btn-del-confirm"
+            v-else
             @click="delTicket()"
           >
             Đồng ý
@@ -216,11 +228,42 @@ export default {
       this.delOne = true;
       this.modalDelRow = true;
     },
+    basketPower655CancelDonhang(itemCart, catRow) {
+      this.msgConfirm = "Bạn muốn xóa vé " + (itemCart + 1) + " ?";
+      this.indexDelOne = itemCart;
+      this.delCategory = catRow;
+      this.modalDelRow = true;
+    },
     delTicket() {
-      if (this.delOne == true) {
-        if (this.delCategory == 3) {
-          this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
+      // Power655
+      if (this.delCategory == 3) {
+        this.totalPrice =
+          this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
+        this.dataCart.splice(this.indexDelOne, 1);
+        this.renewCookiePower655();
+        this.closeConfirmDel();
+      }
+    },
+    delRowTicket() {
+      // Power655
+      if (this.delCategory == 3) {
+        let defaultPrice = this.$commonPower655DefaultMoneyBao(
+          this.dataCart[this.indexDelOne].level
+        );
+
+        let priceRow =
+          defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
+
+        this.dataCart[this.indexDelOne].totalPrice =
+          this.dataCart[this.indexDelOne].totalPrice - priceRow;
+        this.totalPrice = this.totalPrice - priceRow;
+
+        this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
+        if (this.dataCart[this.indexDelOne].numbers.length == 0) {
+          this.dataCart.splice(this.indexDelOne, 1);
         }
+        this.renewCookiePower655();
+        this.closeConfirmDel();
       }
     },
 
@@ -233,7 +276,7 @@ export default {
       this.modalDelRow = false;
     },
     basketBtnClickOrderContinue() {
-      alert("222");
+      this.$redirect({ url: "/momo/receive", samepage: true });
     },
     basketBack() {
       this.$redirect({ url: "/momo/home", samepage: true });
@@ -251,8 +294,16 @@ export default {
       });
       this.dataCart = arrCart;
       this.totalPrice = price;
-      console.log(this.dataCart);
-      console.log(this.totalPrice);
+    },
+
+    renewCookiePower655() {
+      let newCartPower655 = this.dataCart.filter(function (item, index) {
+        return (item.category = 3);
+      });
+      Cookies.remove("LUCKYBEST_Power655")
+      if (newCartPower655.length) {
+        Cookies.set("LUCKYBEST_Power655", JSON.stringify(newCartPower655), {});
+      }
     },
   },
 };

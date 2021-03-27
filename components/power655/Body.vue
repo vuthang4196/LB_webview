@@ -171,10 +171,19 @@
         <v-col cols="6" style="padding: 0" class="text-center">
           <v-btn
             type="button"
-            onclick="power655BtnBuyNow();"
+            @click="power655BtnBuyNow()"
             class="btn btn-danger btn-block btn-md btn-buy-now"
+            v-if="showBtnCart == false"
           >
             MUA NGAY
+          </v-btn>
+          <v-btn
+            type="button"
+            @click="goToCartPage()"
+            class="btn btn-danger btn-block btn-md btn-buy-now"
+            v-else
+          >
+            XEM GIỎ HÀNG
           </v-btn>
         </v-col>
       </v-row>
@@ -261,6 +270,8 @@ export default {
         msg: "",
         timeout: "3000",
       },
+      showBtnCart: false,
+      resultAddBasket: false,
     };
   },
   watch: {
@@ -284,11 +295,15 @@ export default {
   },
   mounted() {
     this.typeLevel = this.$store.state.app.power655typeLevel;
+    this.setShowBtnCart();
     this.getDataKyQuay();
     this.setDefaultSelectedData();
     this.getDefaultPrice();
   },
   methods: {
+    goToCartPage () {
+      this.$redirect({ url: "/momo/basket", samepage: true });
+    },
     showModalCachChoi() {
       this.modalCachChoi = true;
     },
@@ -334,6 +349,16 @@ export default {
         }
       }
     },
+
+    setShowBtnCart() {
+      let cart =
+        Cookies.get("LUCKYBEST_Power655") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+          : [];
+      if (cart.length) {
+        this.showBtnCart = true;
+      }
+    },
     getDataKyQuay() {
       let data = API.data.filter((value, index) => {
         return value.category == this.defaultCategory;
@@ -363,6 +388,13 @@ export default {
       this.modalNumber = false;
     },
 
+    power655BtnBuyNow() {
+      this.power655BtnAddBasket();
+      if (this.resultAddBasket == true) {
+        this.$redirect({ url: "/momo/receive", samepage: true });
+      }
+    },
+
     power655BtnAddBasket() {
       let data = this.selectedData.filter(function (item, key) {
         return item.length > 0;
@@ -381,6 +413,7 @@ export default {
         });
 
         let cartPrice = 0;
+        cartPrice = cartPrice + this.totalPrice;
         cart.map(function (item, index) {
           cartPrice = cartPrice + item.totalPrice;
         });
@@ -401,7 +434,8 @@ export default {
           this.setDefaultSelectedData();
           let msg = "Thêm vào giỏ hàng thành công";
           this.setContentSnackBar(msg);
-
+          this.resultAddBasket = true;
+          this.setShowBtnCart();
           this.$store.dispatch("app/setCookieCartChange", true);
         }
       }

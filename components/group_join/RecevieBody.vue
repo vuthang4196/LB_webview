@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="6" style="padding: 0" class="pl-3">
             <span id="receiveTickerCountMonneyAll" style="color: red">
-              {{ $formatMoney({ amount: totalPrice }) }}đ
+              {{ $formatMoney({ amount: payment.price }) }}
             </span>
           </v-col>
         </v-row>
@@ -31,9 +31,9 @@
             </label>
           </v-col>
           <v-col cols="6" style="padding: 0" class="pl-3">
-            <span id="receiveTickerCountMonneyShip" style="color: red">
-              {{ receiveTicker == 2 ? "Đại lý giữ hộ vé" : "Ship vé" }}
-            </span>
+            <span id="receiveTickerCountMonneyShip" style="color: red"
+              >Đại lý giữ hộ vé</span
+            >
           </v-col>
         </v-row>
         <v-row style="margin: 0">
@@ -67,10 +67,11 @@
               id="receiveTickerCountTotalMonneyAll"
               style="color: red; font-weight: bold"
             >
-              {{ $formatMoney({ amount: totalPriceOnTax }) }}đ
+              {{ $formatMoney({ amount: totalPrice }) }}đ
             </span>
           </v-col>
         </v-row>
+
         <v-row class="text-center" style="display: none; margin: 0">
           <v-col cols="6" style="padding: 0">
             <label
@@ -80,14 +81,14 @@
                 name="receiveTickerRadio"
                 checked=""
               />
-              Đại lý giữ hộ
-            </label>
+              Đại lý giữ hộ</label
+            >
           </v-col>
           <v-col cols="6" style="padding: 0">
-            <label>
-              <input value="1" type="radio" name="receiveTickerRadio" />
-              Shipvé
-            </label>
+            <label
+              ><input value="1" type="radio" name="receiveTickerRadio" /> Ship
+              vé</label
+            >
           </v-col>
         </v-row>
       </div>
@@ -235,9 +236,6 @@ export default {
       percentFee: 1,
       paymentFee: null,
       totalPrice: null,
-      totalPriceOnTax: null,
-      dataCart: [],
-      receiveTicker: 2,
     };
   },
 
@@ -247,33 +245,17 @@ export default {
 
   methods: {
     getPayment() {
+      let data = Cookies.get("payment");
       let wallet = Cookies.get("wallet");
       if (wallet == "momo") {
         this.percentFee = 3;
       }
-
-      this.getDataCartPower655();
-
-      this.paymentFee = Math.floor(this.totalPrice * (this.percentFee / 100));
-
-      this.totalPriceOnTax = this.paymentFee + this.totalPrice;
+      this.payment = JSON.parse(data);
+      this.paymentFee = Math.floor(
+        this.payment.price * (this.percentFee / 100)
+      );
+      this.totalPrice = this.paymentFee + this.payment.price;
     },
-
-    getDataCartPower655() {
-      let arrCart = this.dataCart;
-      let price = this.totalPrice;
-      let cartPower655 =
-        Cookies.get("LUCKYBEST_Power655") !== undefined
-          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
-          : [];
-      cartPower655.map(function (item, index) {
-        arrCart.push(item);
-        price = price + item.totalPrice;
-      });
-      this.dataCart = arrCart;
-      this.totalPrice = price;
-    },
-
     showModalTerm() {
       this.dialog = true;
     },

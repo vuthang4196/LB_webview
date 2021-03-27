@@ -45,6 +45,7 @@ const state = function () {
       18: 2,
     },
     cookieCartChange: false,
+    momoFee: 3,
   }
 }
 

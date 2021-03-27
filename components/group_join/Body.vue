@@ -257,7 +257,7 @@ export default {
           price: this.percentSelected.amount,
         };
         Cookies.set("payment", JSON.stringify(dataPaymentGroup), {});
-        this.$redirect({ url: "/momo/receive", samepage: true });
+        this.$redirect({ url: "/momo/group_join/receive", samepage: true });
       }
     },
     getCloseTime(value) {
