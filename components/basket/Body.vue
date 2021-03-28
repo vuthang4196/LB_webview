@@ -7,6 +7,7 @@
           v-for="(item, index) in dataCart"
           :key="index"
         >
+          <!-- Power655 -->
           <div class="form-group mb-3" v-if="item.category == 3">
             <div class="basket-group-baobao">
               <img src="/power655_logo.png" width="80px" height="auto" />
@@ -37,7 +38,7 @@
                         <span
                           class="step_btn"
                           @click="
-                            cancelNumberRowPower655(index, key, item.category)
+                            cancelNumberRow(index, key, item.category)
                           "
                         >
                           <i class="fa fa-trash-o"></i>
@@ -62,7 +63,7 @@
                 <v-col cols="9" style="padding: 0">
                   <p>
                     <strong>Ngày :</strong>
-                    T{{ ticket.openDate | day }} {{ ticket.openDate | time }}
+                    {{ ticket.openDate | day }} {{ ticket.openDate | time }}
                   </p>
                 </v-col>
               </v-row>
@@ -80,7 +81,96 @@
                   </v-col>
                   <v-col cols="4" class="text-right" style="padding: 0">
                     <a
-                      @click="basketPower655CancelDonhang(index, item.category)"
+                      @click="basketCancelDonhang(index, item.category)"
+                      href="javascript:void(0)"
+                    >
+                      <i
+                        class="fa fa-trash-o"
+                        style="color: red; font-size: 14px"
+                      ></i>
+                      <strong>HỦY VÉ</strong>
+                    </a>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mega645 -->
+          <div class="form-group mb-3" v-if="item.category == 1">
+            <div class="basket-group-baobao">
+              <img src="/mega645_logo.png" width="80px" height="auto" />
+              <!-- Level -->
+              <div class="form-group text-center">
+                <p style="padding-top: 7px"></p>
+                <p class="basket-group-level">
+                  {{ item.level == 6 ? " Vé thường" : "Bao " + item.level }}
+                </p>
+                <p></p>
+              </div>
+              <!-- Numbers -->
+              <div class="basketCircle">
+                <table style="width: 100%">
+                  <tbody>
+                    <tr v-for="(nums, key) in item.numbers" :key="key">
+                      <td style="width: 10%">
+                        <span class="key">{{
+                          $commonBuildABCAll(key + 1)
+                        }}</span>
+                      </td>
+                      <td style="width: 70%">
+                        <span class="step" v-for="(num, i) in nums" :key="i">
+                          {{ num < 10 ? "0" + num : num }}
+                        </span>
+                      </td>
+                      <td style="text-align: right; padding-right: 10px">
+                        <span
+                          class="step_btn"
+                          @click="
+                            cancelNumberRow(index, key, item.category)
+                          "
+                        >
+                          <i class="fa fa-trash-o"></i>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <br />
+              <!-- Ky Quay -->
+              <v-row
+                style="margin: 0"
+                class="basket-font-size-ky"
+                v-for="(ticket, t) in item.tickets"
+                :key="t"
+              >
+                <v-col cols="3" style="padding: 0" class="pl-1">
+                  <p><strong>Kỳ :</strong> #{{ ticket.drawCode }}</p>
+                </v-col>
+                <v-col cols="9" style="padding: 0">
+                  <p>
+                    <strong>Ngày :</strong>
+                    {{ ticket.openDate | day }} {{ ticket.openDate | time }}
+                  </p>
+                </v-col>
+              </v-row>
+
+              <!-- Price -->
+              <div class="form-group basket-border-top mb-3">
+                <v-row class="basket-font-size-money" style="margin: 0">
+                  <v-col cols="8" class="text-left pl-1" style="padding: 0">
+                    <strong>
+                      VÉ {{ index + 1 }} :
+                      <span style="color: red">
+                        {{ $formatMoney({ amount: item.totalPrice }) }}đ
+                      </span>
+                    </strong>
+                  </v-col>
+                  <v-col cols="4" class="text-right" style="padding: 0">
+                    <a
+                      @click="basketCancelDonhang(index, item.category)"
                       href="javascript:void(0)"
                     >
                       <i
@@ -210,14 +300,21 @@ export default {
       return moment(date, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY");
     },
     day: function (date) {
-      return parseInt(moment(date, "DD-MM-YYYY HH:mm:ss").format("d")) + 1;
+      let day = moment(date, "DD-MM-YYYY HH:mm:ss").format("d");
+      let str = "";
+      if (day > 1) {
+        str = "T" + day;
+      } else {
+        str = "CN"
+      }
+      return str;
     },
   },
   mounted() {
-    this.getDataCartPower655();
+    this.getDataCart();
   },
   methods: {
-    cancelNumberRowPower655(itemCart, rowNum, catRow) {
+    cancelNumberRow(itemCart, rowNum, catRow) {
       let strRow = this.$commonBuildABCAll(rowNum + 1);
       let strNums = this.dataCart[itemCart].numbers[rowNum].toString();
       strNums = strNums.replaceAll(",", " ");
@@ -228,7 +325,7 @@ export default {
       this.delOne = true;
       this.modalDelRow = true;
     },
-    basketPower655CancelDonhang(itemCart, catRow) {
+    basketCancelDonhang(itemCart, catRow) {
       this.msgConfirm = "Bạn muốn xóa vé " + (itemCart + 1) + " ?";
       this.indexDelOne = itemCart;
       this.delCategory = catRow;
@@ -240,7 +337,15 @@ export default {
         this.totalPrice =
           this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
         this.dataCart.splice(this.indexDelOne, 1);
-        this.renewCookiePower655();
+        this.renewCookieCart();
+        this.closeConfirmDel();
+      }
+      //Mega645
+      if (this.delCategory == 1) {
+        this.totalPrice =
+          this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
+        this.dataCart.splice(this.indexDelOne, 1);
+        this.renewCookieCart();
         this.closeConfirmDel();
       }
     },
@@ -262,7 +367,28 @@ export default {
         if (this.dataCart[this.indexDelOne].numbers.length == 0) {
           this.dataCart.splice(this.indexDelOne, 1);
         }
-        this.renewCookiePower655();
+        this.renewCookieCart();
+        this.closeConfirmDel();
+      }
+
+      // Mega645
+      if (this.delCategory == 1) {
+        let defaultPrice = this.$commonMega645DefaultMoneyBao(
+          this.dataCart[this.indexDelOne].level
+        );
+
+        let priceRow =
+          defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
+
+        this.dataCart[this.indexDelOne].totalPrice =
+          this.dataCart[this.indexDelOne].totalPrice - priceRow;
+        this.totalPrice = this.totalPrice - priceRow;
+
+        this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
+        if (this.dataCart[this.indexDelOne].numbers.length == 0) {
+          this.dataCart.splice(this.indexDelOne, 1);
+        }
+        this.renewCookieCart();
         this.closeConfirmDel();
       }
     },
@@ -281,29 +407,25 @@ export default {
     basketBack() {
       this.$redirect({ url: "/momo/home", samepage: true });
     },
-    getDataCartPower655() {
-      let arrCart = this.dataCart;
+    getDataCart() {
       let price = this.totalPrice;
-      let cartPower655 =
-        Cookies.get("LUCKYBEST_Power655") !== undefined
-          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
-          : [];
-      cartPower655.map(function (item, index) {
-        arrCart.push(item);
-        price = price + item.totalPrice;
+
+      let dataCart = this.$getCartData();
+
+      dataCart.map(function (item, index) {
+        if (item.category == 3) {
+          price = price + item.totalPrice;
+        }
+        if (item.category == 1) {
+          price = price + item.totalPrice;
+        }
       });
-      this.dataCart = arrCart;
+      this.dataCart = dataCart;
       this.totalPrice = price;
     },
 
-    renewCookiePower655() {
-      let newCartPower655 = this.dataCart.filter(function (item, index) {
-        return (item.category = 3);
-      });
-      Cookies.remove("LUCKYBEST_Power655")
-      if (newCartPower655.length) {
-        Cookies.set("LUCKYBEST_Power655", JSON.stringify(newCartPower655), {});
-      }
+    renewCookieCart() {
+      this.$renewCookieCart({dataCart: this.dataCart})
     },
   },
 };

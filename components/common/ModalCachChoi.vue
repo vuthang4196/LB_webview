@@ -6,7 +6,7 @@
       @click:outside="$emit('update:modalCachChoi', false)"
     >
       <v-card>
-        <v-card-title class="lighten-2 dialog-custom header-modal-cach-choi">
+        <v-card-title class="lighten-2 dialog-custom header-modal-cach-choi" :style="{background: color}">
           <v-col cols="2" />
           <v-col cols="8" class="dialog-custom-col text-center title-custom">
             CÁCH CHƠI
@@ -90,6 +90,7 @@ export default {
     modalCachChoi: Boolean,
     selectedLevel: Number,
     typeLevel: Array,
+    color: String,
   },
   data() {
     return {

@@ -950,7 +950,7 @@ html {
 
 .header-modal-cach-choi {
   color: white;
-  background-color: #DD0E11 !important;
+  /* background-color: #DD0E11 !important; */
 }
 
 .header-dialog-info-group-done .title-custom, .header-modal-cach-choi .title-custom {
@@ -1233,11 +1233,16 @@ html {
   padding: 8px !important;
 }
 
-.power655CircleOrderBao .form-group {
+.power655CircleOrderBao .form-group, .mega645CircleOrderBao .form-group {
   margin-bottom: 5px;
 }
 
 .power655Circle {
+  border-top: #999999 solid 1px;
+  padding-top: 10px;
+}
+
+.mega645Circle {
   border-top: #999999 solid 1px;
   padding-top: 10px;
 }
@@ -1269,7 +1274,7 @@ html {
   color: #E51E25;
 }
 
-.power655Circle .step_btn {
+.power655Circle .step_btn, .mega645Circle .step_btn {
   border: #eea236 solid 1px;
   border-radius: 50%;
   -moz-border-radius: 50%;
@@ -1295,8 +1300,15 @@ html {
   width: 100%;
   border-radius: 13px !important;
   color: #fff !important;
+}
+
+.btn-quick-select.btn-quick-select-power655 {
   background-color: #ec1b30 !important;
   border-color: #ec1b30;
+}
+.btn-quick-select.btn-quick-select-mega645 {
+  background-color: #f0ad4e !important;
+  border-color: #f0ad4e;
 }
 
 .btn {
@@ -1525,4 +1537,31 @@ html {
   padding: 15px !important;
   text-align: right;
   border-top: 1px solid #e5e5e5;
+}
+
+.mega645Circle .step {
+  border: #1b63b3 solid 1px;
+  border-radius: 1.1em;
+  -moz-border-radius: 1.1em;
+  -webkit-border-radius: 1.1em;
+  color: #333333;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.2em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 2.2em;
+  height: 2.2em;
+  cursor: pointer;
+}
+
+.mega645Circle .key {
+  font-size: 17px;
+  margin-right: 11px;
+  font-weight: bold;
+  width: 1.8em;
+  height: 1.8em;
+  line-height: 27px;
+  color: #1b63b3;
 }

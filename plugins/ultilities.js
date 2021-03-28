@@ -5,6 +5,7 @@ import {
   RETURN_URL,
   COOKIE_CLIENT_TRANSID_NAME
 } from '~/store/constants'
+import Cookies from "js-cookie";
 
 // import * as Cookies from 'js-cookie'
 import uniqid from 'uniqid'
@@ -267,11 +268,100 @@ export default function (context, inject) {
       console.log(e)
     }
   })
+  inject('commonMega645DefaultMoneyBao', typeBao => {
+    try {
+      var giaveVND = 10000;
+
+      if (typeBao == 5) {
+        giaveVND = 400000;
+      } else if (typeBao == 7) {
+        giaveVND = 70000;
+      } else if (typeBao == 8) {
+        giaveVND = 280000;
+      } else if (typeBao == 9) {
+        giaveVND = 840000;
+      } else if (typeBao == 10) {
+        giaveVND = 2100000;
+      } else if (typeBao == 11) {
+        giaveVND = 4620000;
+      } else if (typeBao == 12) {
+        giaveVND = 9240000;
+      } else if (typeBao == 13) {
+        giaveVND = 17160000;
+      } else if (typeBao == 14) {
+        giaveVND = 30030000;
+      } else if (typeBao == 15) {
+        giaveVND = 50050000;
+      } else if (typeBao == 18) {
+        giaveVND = 185640000;
+      }
+
+      return giaveVND;
+
+      return giaveVND;
+    } catch (e) {
+      console.log(e)
+    }
+  })
   inject('sortNumber', payload => {
     try {
       return function (a, b) {
         return a - b
       }
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  inject('getCartData', payload => {
+    try {
+      let cartData = [];
+      let cartPower655 =
+        Cookies.get("LUCKYBEST_Power655") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+          : [];
+      cartPower655.map(function (item, index) {
+        cartData.push(item);
+      });
+
+      let cartMega645 =
+        Cookies.get("LUCKYBEST_Mega645") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Mega645"))
+          : [];
+      cartMega645.map(function (item, index) {
+        cartData.push(item);
+      });
+
+      return cartData;
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  inject('renewCookieCart', payload => {
+    try {
+      let dataCart = payload.dataCart;
+      let newCartPower655 = [];
+      let newCartMega645 = [];
+      dataCart.map(function (item, index) {
+        //Power655
+        if (item.category == 3) {
+          newCartPower655.push(item);
+        }
+        
+        //Mega645
+        if (item.category == 1) {
+          newCartMega645.push(item);
+        }
+      });
+      Cookies.remove("LUCKYBEST_Power655");
+      Cookies.remove("LUCKYBEST_Mega645");
+      if (newCartPower655.length) {
+        Cookies.set("LUCKYBEST_Power655", JSON.stringify(newCartPower655), {});
+      }
+      if (newCartMega645.length) {
+        Cookies.set("LUCKYBEST_Mega645", JSON.stringify(newCartMega645), {});
+      }
+
+      return;
     } catch (e) {
       console.log(e)
     }

@@ -69,12 +69,10 @@ export default {
     goToCartPage() {
       this.$redirect({ url: "/momo/basket", samepage: true });
     },
+
     getTotalCart() {
-      let cartPower655 =
-        Cookies.get("LUCKYBEST_Power655") !== undefined
-          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
-          : [];
-      this.thisTotalCart = this.thisTotalCart + cartPower655.length;
+      let dataCart = this.$getCartData();
+      this.thisTotalCart = this.thisTotalCart + dataCart.length;
     },
   },
 };

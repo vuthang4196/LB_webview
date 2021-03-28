@@ -401,7 +401,9 @@ export default {
       this.$redirect({ url: "/momo/power655", samepage: true });
     },
 
-    homeOpenMega645() {},
+    homeOpenMega645() {
+      this.$redirect({ url: "/momo/mega645", samepage: true });
+    },
 
     homeOpenOmMax3DPlus() {},
 

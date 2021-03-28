@@ -61,14 +61,14 @@
       </v-row>
     </div>
 
-    <div id="power655BodyAllBao">
-      <div class="power655CircleOrderBao">
+    <div id="mega645BodyAllBao">
+      <div class="mega645CircleOrderBao">
         <div
           class="form-group"
           v-for="key in $store.state.app.numberRowLevel[selectedLevel]"
           :key="key"
         >
-          <div class="power655Circle">
+          <div class="mega645Circle">
             <table style="width: 100%">
               <tbody>
                 <tr>
@@ -77,7 +77,7 @@
                   </td>
                   <td
                     style="width: 75%; text-align: left; padding-left: 15px"
-                    @click="power655OpenModalNumber(key)"
+                    @click="mega645OpenModalNumber(key)"
                   >
                     <span
                       class="step"
@@ -96,7 +96,7 @@
                   <td style="text-align: right">
                     <span
                       class="step_btn"
-                      @click="power655BtnOnclickRandom(key)"
+                      @click="meag645BtnOnclickRandom(key)"
                       :class="{
                         displayNoneKyQuay:
                           selectedData[key - 1] &&
@@ -110,7 +110,7 @@
                     </span>
                     <span
                       class="step_btn"
-                      @click="power655BtnOnclickDel(key)"
+                      @click="mega645BtnOnclickDel(key)"
                       :class="{
                         displayNoneKyQuay:
                           selectedData[key - 1] &&
@@ -146,8 +146,8 @@
 
     <div class="form-group mb-3">
       <v-btn
-        @click="power655BtnToChonnhanh()"
-        class="btn btn-danger btn-block btn-md btn-quick-select btn-quick-select-power655"
+        @click="mega645BtnToChonnhanh()"
+        class="btn btn-danger btn-block btn-md btn-quick-select btn-quick-select-mega645"
       >
         CHỌN NHANH
       </v-btn>
@@ -158,7 +158,7 @@
         <v-col cols="6" style="padding: 0" class="text-center">
           <v-btn
             type="button"
-            @click="power655BtnAddBasket()"
+            @click="mega645BtnAddBasket()"
             class="btn btn-primary btn-block btn-md btn-add-to-cart"
           >
             <i class="fa fa-plus" style="font-size: xx-small; margin: 0"></i>
@@ -171,7 +171,7 @@
         <v-col cols="6" style="padding: 0" class="text-center">
           <v-btn
             type="button"
-            @click="power655BtnBuyNow()"
+            @click="mega645BtnBuyNow()"
             class="btn btn-danger btn-block btn-md btn-buy-now"
             v-if="showBtnCart == false"
           >
@@ -261,12 +261,12 @@ export default {
       dataKyQuay: [],
       selectedKyQuay: [],
       selectedData: [],
-      totalNumber: 55,
+      totalNumber: 45,
       defaultPrice: 0,
       selectedKey: 0,
       selectedDataRow: [],
       totalPrice: 0,
-      defaultCategory: 3,
+      defaultCategory: 1,
       snackBar: {
         show: false,
         msg: "",
@@ -274,7 +274,7 @@ export default {
       },
       showBtnCart: false,
       resultAddBasket: false,
-      color: "#DD0E11",
+      color: "#da7545",
     };
   },
   watch: {
@@ -297,7 +297,7 @@ export default {
     },
   },
   mounted() {
-    this.typeLevel = this.$store.state.app.power655typeLevel;
+    this.typeLevel = this.$store.state.app.mega645typeLevel;
     this.setShowBtnCart();
     this.getDataKyQuay();
     this.setDefaultSelectedData();
@@ -313,12 +313,12 @@ export default {
     showModalKyQuay() {
       this.modalKyQuay = true;
     },
-    power655OpenModalNumber(key) {
+    mega645OpenModalNumber(key) {
       this.selectedKey = key;
       this.selectedDataRow = this.selectedData[key - 1];
       this.modalNumber = true;
     },
-    power655BtnOnclickRandom(key) {
+    meag645BtnOnclickRandom(key) {
       do {
         let random = Math.floor(Math.random() * (this.totalNumber - 1 + 1) + 1);
         if (!this.selectedData[key - 1].includes(random)) {
@@ -328,11 +328,11 @@ export default {
       } while (this.selectedData[key - 1].length < this.selectedLevel);
       return;
     },
-    power655BtnOnclickDel(key) {
+    mega645BtnOnclickDel(key) {
       this.selectedData[key - 1].splice(0, this.selectedLevel);
       return;
     },
-    power655BtnToChonnhanh() {
+    mega645BtnToChonnhanh() {
       for (
         var i = 0;
         i < this.$store.state.app.numberRowLevel[this.selectedLevel];
@@ -379,7 +379,7 @@ export default {
     },
 
     getDefaultPrice() {
-      this.defaultPrice = this.$commonPower655DefaultMoneyBao(
+      this.defaultPrice = this.$commonMega645DefaultMoneyBao(
         this.selectedLevel
       );
     },
@@ -388,14 +388,14 @@ export default {
       this.modalNumber = false;
     },
 
-    power655BtnBuyNow() {
-      this.power655BtnAddBasket();
+    mega645BtnBuyNow() {
+      this.mega645BtnAddBasket();
       if (this.resultAddBasket == true) {
         this.$redirect({ url: "/momo/receive", samepage: true });
       }
     },
 
-    power655BtnAddBasket() {
+    mega645BtnAddBasket() {
       let data = this.selectedData.filter(function (item, key) {
         return item.length > 0;
       });
@@ -419,9 +419,9 @@ export default {
             "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
           this.setContentSnackBar(msg);
         } else {
-          let cartPower655 =
-            Cookies.get("LUCKYBEST_Power655") !== undefined
-              ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+          let cartMega645 =
+            Cookies.get("LUCKYBEST_Mega645") !== undefined
+              ? JSON.parse(Cookies.get("LUCKYBEST_Mega645"))
               : [];
           let dataCart = {
             numbers: data,
@@ -430,8 +430,8 @@ export default {
             category: this.defaultCategory,
             totalPrice: this.totalPrice,
           };
-          cartPower655.push(dataCart);
-          Cookies.set("LUCKYBEST_Power655", JSON.stringify(cartPower655), {});
+          cartMega645.push(dataCart);
+          Cookies.set("LUCKYBEST_Mega645", JSON.stringify(cartMega645), {});
           this.setDefaultSelectedData();
           let msg = "Thêm vào giỏ hàng thành công";
           this.setContentSnackBar(msg);

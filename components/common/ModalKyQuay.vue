@@ -2,7 +2,7 @@
   <div class="text-center modal-cach-choi">
     <v-dialog v-model="modalKyQuay" width="565"  persistent>
       <v-card>
-        <v-card-title class="lighten-2 dialog-custom header-modal-cach-choi">
+        <v-card-title class="lighten-2 dialog-custom header-modal-cach-choi" :style="{background: color}">
           <v-col cols="2" />
           <v-col cols="8" class="dialog-custom-col text-center title-custom">
             CHỌN KỲ QUAY
@@ -36,7 +36,7 @@
                       class="text-left px-2"
                     >
                       <span>
-                        Kỳ #{{ item.drawCode }} - T{{ item.openDate | day }}
+                        Kỳ #{{ item.drawCode }} - {{ item.openDate | day }}
                         {{ item.openDate | moment }}
                       </span>
                     </v-col>
@@ -95,13 +95,21 @@ export default {
     modalKyQuay: Boolean,
     dataKyQuay: Array,
     selectedKyQuay: Array,
+    color: String,
   },
   filters: {
     moment: function (date) {
       return moment(date, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY");
     },
     day: function (date) {
-      return parseInt(moment(date, "DD-MM-YYYY HH:mm:ss").format("d")) + 1;
+      let day = moment(date, "DD-MM-YYYY HH:mm:ss").format("d");
+      let str = "";
+      if (day > 1) {
+        str = "T" + day;
+      } else {
+        str = "CN"
+      }
+      return str;
     },
   },
 

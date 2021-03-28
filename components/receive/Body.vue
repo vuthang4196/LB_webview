@@ -260,17 +260,19 @@ export default {
     },
 
     getDataCartPower655() {
-      let arrCart = this.dataCart;
       let price = this.totalPrice;
-      let cartPower655 =
-        Cookies.get("LUCKYBEST_Power655") !== undefined
-          ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
-          : [];
-      cartPower655.map(function (item, index) {
-        arrCart.push(item);
-        price = price + item.totalPrice;
+
+      let dataCart = this.$getCartData();
+
+      dataCart.map(function (item, index) {
+        if (item.category == 3) {
+          price = price + item.totalPrice;
+        }
+        if (item.category == 1) {
+          price = price + item.totalPrice;
+        }
       });
-      this.dataCart = arrCart;
+      this.dataCart = dataCart;
       this.totalPrice = price;
     },
 

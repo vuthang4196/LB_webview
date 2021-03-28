@@ -30,6 +30,7 @@ const state = function () {
     },
     wallet: '',
     power655typeLevel: [6, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18],
+    mega645typeLevel: [6, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18],
     numberRowLevel: {
       6: 6,
       5: 6,
