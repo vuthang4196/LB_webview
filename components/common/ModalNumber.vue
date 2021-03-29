@@ -106,7 +106,6 @@ export default {
   data() {
     return {
       selected: [],
-      test: [],
       key: 1,
       snackBar: {
         show: false,

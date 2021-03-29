@@ -399,45 +399,50 @@ export default {
       let data = this.selectedData.filter(function (item, key) {
         return item.length > 0;
       });
-      if (data.length == 0) {
-        let msg = "Bạn chưa chọn bộ số nào";
+      if (this.selectedKyQuay == 0) {
+        let msg = "Bạn chưa chọn kỳ quay";
         this.setContentSnackBar(msg);
       } else {
-        let cart = this.$getCartData();
-        let dataSelectedKyQuay = this.selectedKyQuay;
-        let kyQuay = this.dataKyQuay.filter(function (item, key) {
-          return dataSelectedKyQuay.includes(item.drawCode);
-        });
-
-        let cartPrice = 0;
-        cartPrice = cartPrice + this.totalPrice;
-        cart.map(function (item, index) {
-          cartPrice = cartPrice + item.totalPrice;
-        });
-        if (cartPrice > 50000000) {
-          let msg =
-            "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
+        if (data.length == 0) {
+          let msg = "Bạn chưa chọn bộ số nào";
           this.setContentSnackBar(msg);
         } else {
-          let cartPower655 =
-            Cookies.get("LUCKYBEST_Power655") !== undefined
-              ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
-              : [];
-          let dataCart = {
-            numbers: data,
-            level: this.selectedLevel,
-            tickets: kyQuay,
-            category: this.defaultCategory,
-            totalPrice: this.totalPrice,
-          };
-          cartPower655.push(dataCart);
-          Cookies.set("LUCKYBEST_Power655", JSON.stringify(cartPower655), {});
-          this.setDefaultSelectedData();
-          let msg = "Thêm vào giỏ hàng thành công";
-          this.setContentSnackBar(msg);
-          this.resultAddBasket = true;
-          this.setShowBtnCart();
-          this.$store.dispatch("app/setCookieCartChange", true);
+          let cart = this.$getCartData();
+          let dataSelectedKyQuay = this.selectedKyQuay;
+          let kyQuay = this.dataKyQuay.filter(function (item, key) {
+            return dataSelectedKyQuay.includes(item.drawCode);
+          });
+
+          let cartPrice = 0;
+          cartPrice = cartPrice + this.totalPrice;
+          cart.map(function (item, index) {
+            cartPrice = cartPrice + item.totalPrice;
+          });
+          if (cartPrice > 50000000) {
+            let msg =
+              "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
+            this.setContentSnackBar(msg);
+          } else {
+            let cartPower655 =
+              Cookies.get("LUCKYBEST_Power655") !== undefined
+                ? JSON.parse(Cookies.get("LUCKYBEST_Power655"))
+                : [];
+            let dataCart = {
+              numbers: data,
+              level: this.selectedLevel,
+              tickets: kyQuay,
+              category: this.defaultCategory,
+              totalPrice: this.totalPrice,
+            };
+            cartPower655.push(dataCart);
+            Cookies.set("LUCKYBEST_Power655", JSON.stringify(cartPower655), {});
+            this.setDefaultSelectedData();
+            let msg = "Thêm vào giỏ hàng thành công";
+            this.setContentSnackBar(msg);
+            this.resultAddBasket = true;
+            this.setShowBtnCart();
+            this.$store.dispatch("app/setCookieCartChange", true);
+          }
         }
       }
     },

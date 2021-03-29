@@ -300,7 +300,7 @@ export default {
       return moment(date, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY");
     },
     day: function (date) {
-      let day = moment(date, "DD-MM-YYYY HH:mm:ss").format("d");
+      let day = parseInt(moment(date, "DD-MM-YYYY HH:mm:ss").format("d")) + 1;
       let str = "";
       if (day > 1) {
         str = "T" + day;

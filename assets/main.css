@@ -1306,6 +1306,7 @@ html {
   background-color: #ec1b30 !important;
   border-color: #ec1b30;
 }
+
 .btn-quick-select.btn-quick-select-mega645 {
   background-color: #f0ad4e !important;
   border-color: #f0ad4e;
@@ -1564,4 +1565,101 @@ html {
   height: 1.8em;
   line-height: 27px;
   color: #1b63b3;
+}
+
+.panel-body-common .stepStc {
+  border: #F27F24 solid 1px;
+  border-radius: 1.1em;
+  -moz-border-radius: 1.1em;
+  -webkit-border-radius: 1.1em;
+  color: #333333;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.2em;
+  margin-left: 13px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 5.2em;
+  height: 2.2em;
+  cursor: pointer;
+}
+
+.panel-body-common .stepStc_btn {
+  border: #eea236 solid 1px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  color: white;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.5em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 2.3em;
+  height: 2.3em;
+  background-color: #eea236;
+  cursor: pointer;
+}
+
+.panel-body-common .stepOgs {
+  border: #F27F24 solid 1px;
+  border-radius: 1.1em;
+  -moz-border-radius: 1.1em;
+  -webkit-border-radius: 1.1em;
+  color: #F27F24;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.2em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 4.7em;
+  height: 2.2em;
+  cursor: pointer;
+}
+
+.panel-body-common .ommax3dPlusCircle {
+  border-bottom: #999999 solid 1px;
+}
+
+.panel-body-common #ommax3dPlusCircleOrderBao6 {
+  max-height: 251px;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+.panel-body-common #ommax3dPlusBodyAllBao {
+  min-height: 250px;
+}
+
+.custom-dialog-number .ommax3dPlusCircleModal {
+  position: relative;
+}
+
+.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel {
+  border: #000000 solid 1px;
+  border-radius: 1.2em;
+  -moz-border-radius: 1.2em;
+  -webkit-border-radius: 1.2em;
+  color: #464646;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.4em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 2.4em;
+  height: 2.4em;
+  cursor: pointer;
+}
+
+.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel.otron_checked {
+  color: white !important;
+  border: red solid 1px !important;
+  background-color: red !important;
+}
+
+.custom-dialog-number-body .ommax3dPlusDivBorderModal {
+  border-right: 1px solid gray;
 }

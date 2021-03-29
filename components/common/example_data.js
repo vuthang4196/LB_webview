@@ -2,11 +2,6 @@ const API = {
   data: [
     {
       "category": 1,
-      "openDate": "28/03/2021 18:00:00",
-      "drawCode": "00721"
-    },
-    {
-      "category": 1,
       "openDate": "31/03/2021 18:00:00",
       "drawCode": "00722"
     },
@@ -29,6 +24,11 @@ const API = {
       "category": 1,
       "openDate": "09/04/2021 18:00:00",
       "drawCode": "00726"
+    },
+    {
+      "category": 1,
+      "openDate": "11/04/2021 18:00:00",
+      "drawCode": "00727"
     },
     {
       "category": 2,
@@ -92,11 +92,6 @@ const API = {
     },
     {
       "category": 4,
-      "openDate": "29/03/2021 18:00:00",
-      "drawCode": "00292"
-    },
-    {
-      "category": 4,
       "openDate": "31/03/2021 18:00:00",
       "drawCode": "00293"
     },
@@ -121,9 +116,9 @@ const API = {
       "drawCode": "00297"
     },
     {
-      "category": 5,
-      "openDate": "29/03/2021 18:00:00",
-      "drawCode": "00292"
+      "category": 4,
+      "openDate": "12/04/2021 18:00:00",
+      "drawCode": "00298"
     },
     {
       "category": 5,
@@ -151,39 +146,39 @@ const API = {
       "drawCode": "00297"
     },
     {
-      "category": 6,
-      "openDate": "28/03/2021 12:40:00",
-      "drawCode": "0053240"
+      "category": 5,
+      "openDate": "12/04/2021 18:00:00",
+      "drawCode": "00298"
     },
     {
       "category": 6,
-      "openDate": "28/03/2021 12:50:00",
-      "drawCode": "0053241"
+      "openDate": "29/03/2021 20:40:00",
+      "drawCode": "0053383"
     },
     {
       "category": 6,
-      "openDate": "28/03/2021 13:00:00",
-      "drawCode": "0053242"
+      "openDate": "29/03/2021 20:50:00",
+      "drawCode": "0053384"
     },
     {
       "category": 6,
-      "openDate": "28/03/2021 13:10:00",
-      "drawCode": "0053243"
+      "openDate": "29/03/2021 21:00:00",
+      "drawCode": "0053385"
     },
     {
       "category": 6,
-      "openDate": "28/03/2021 13:20:00",
-      "drawCode": "0053244"
+      "openDate": "29/03/2021 21:10:00",
+      "drawCode": "0053386"
     },
     {
       "category": 6,
-      "openDate": "28/03/2021 13:30:00",
-      "drawCode": "0053245"
+      "openDate": "29/03/2021 21:20:00",
+      "drawCode": "0053387"
     },
     {
-      "category": 15,
-      "openDate": "29/03/2021 18:00:00",
-      "drawCode": "00292"
+      "category": 6,
+      "openDate": "29/03/2021 21:30:00",
+      "drawCode": "0053388"
     },
     {
       "category": 15,
@@ -211,9 +206,9 @@ const API = {
       "drawCode": "00297"
     },
     {
-      "category": 21,
-      "openDate": "28/03/2021 18:00:00",
-      "drawCode": "00721"
+      "category": 15,
+      "openDate": "12/04/2021 18:00:00",
+      "drawCode": "00298"
     },
     {
       "category": 21,
@@ -239,6 +234,11 @@ const API = {
       "category": 21,
       "openDate": "09/04/2021 18:00:00",
       "drawCode": "00726"
+    },
+    {
+      "category": 21,
+      "openDate": "11/04/2021 18:00:00",
+      "drawCode": "00727"
     },
     {
       "category": 23,
@@ -274,11 +274,11 @@ const API = {
   bookingTickets: [
     {
       "chicken": 0,
-      "jackpot1": 21504845500,
+      "jackpot1": 12000000000,
       "category": 1,
-      "openDate": "28/03/2021 18:10:00",
+      "openDate": "31/03/2021 18:10:00",
       "jackpot2": 0,
-      "drawCode": "00721"
+      "drawCode": "00722"
     },
     {
       "chicken": 0,
@@ -300,17 +300,17 @@ const API = {
       "chicken": 0,
       "jackpot1": 0,
       "category": 4,
-      "openDate": "29/03/2021 18:10:00",
+      "openDate": "31/03/2021 18:10:00",
       "jackpot2": 0,
-      "drawCode": "00292"
+      "drawCode": "00293"
     },
     {
       "chicken": 0,
       "jackpot1": 0,
       "category": 15,
-      "openDate": "29/03/2021 18:10:00",
+      "openDate": "31/03/2021 18:10:00",
       "jackpot2": 0,
-      "drawCode": "00292"
+      "drawCode": "00293"
     }
   ]
 }

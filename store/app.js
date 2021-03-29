@@ -47,6 +47,7 @@ const state = function () {
     },
     cookieCartChange: false,
     momoFee: 3,
+    defaultPrice_omMax3DPlus: [10000, 20000, 50000, 100000, 200000]
   }
 }
 
