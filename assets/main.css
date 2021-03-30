@@ -1274,7 +1274,7 @@ html {
   color: #E51E25;
 }
 
-.power655Circle .step_btn, .mega645Circle .step_btn {
+.power655Circle .step_btn, .mega645Circle .step_btn, .max3dPlusCircle .step_btn {
   border: #eea236 solid 1px;
   border-radius: 50%;
   -moz-border-radius: 50%;
@@ -1305,6 +1305,11 @@ html {
 .btn-quick-select.btn-quick-select-power655 {
   background-color: #ec1b30 !important;
   border-color: #ec1b30;
+}
+
+.btn-quick-select.btn-quick-select-max3dplus {
+  background-color: #f0ad4e !important;
+  border-color: #eea236
 }
 
 .btn-quick-select.btn-quick-select-mega645 {
@@ -1662,4 +1667,41 @@ html {
 
 .custom-dialog-number-body .ommax3dPlusDivBorderModal {
   border-right: 1px solid gray;
+}
+
+.panel-body-common .max3dPlusCircle {
+  border-top: #999999 solid 1px;
+  padding-top: 10px;
+}
+
+.panel-body-common .max3dPlusCircle .step {
+  border: #B21B8F solid 1px;
+  border-radius: 1.1em;
+  -moz-border-radius: 1.1em;
+  -webkit-border-radius: 1.1em;
+  color: #333333;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 2.2em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 5.2em;
+  height: 2.2em;
+  cursor: pointer;
+}
+
+.panel-body-common .max3dPlusCircle .key {
+  font-size: 17px;
+  margin-right: 11px;
+  font-weight: bold;
+  width: 1.8em;
+  height: 1.8em;
+  line-height: 27px;
+}
+
+.panel-body-common select.minimal {
+  background-image:  url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wMdBhAJ/fwnjwAAAGFJREFUKM9jYBh+gBFKuzEwMKQwMDB8xaOWlYGB4T4DA0MrsuapDAwM//HgNwwMDDbYTJuGQ8MHBgYGJ1xOYGNgYJiBpuEpAwODHSF/siDZ+ISBgcGClEDqZ2Bg8B6CkQsAPRga0cpRtDEAAAAASUVORK5CYII=);
+  background-position: calc(100% - 8px) calc(1em + -4px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+  background-repeat: no-repeat;
 }

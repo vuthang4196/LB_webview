@@ -37,9 +37,7 @@
                       <td style="text-align: right; padding-right: 10px">
                         <span
                           class="step_btn"
-                          @click="
-                            cancelNumberRow(index, key, item.category)
-                          "
+                          @click="cancelNumberRow(index, key, item.category)"
                         >
                           <i class="fa fa-trash-o"></i>
                         </span>
@@ -126,12 +124,96 @@
                       <td style="text-align: right; padding-right: 10px">
                         <span
                           class="step_btn"
-                          @click="
-                            cancelNumberRow(index, key, item.category)
-                          "
+                          @click="cancelNumberRow(index, key, item.category)"
                         >
                           <i class="fa fa-trash-o"></i>
                         </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <br />
+              <!-- Ky Quay -->
+              <v-row
+                style="margin: 0"
+                class="basket-font-size-ky"
+                v-for="(ticket, t) in item.tickets"
+                :key="t"
+              >
+                <v-col cols="3" style="padding: 0" class="pl-1">
+                  <p><strong>Kỳ :</strong> #{{ ticket.drawCode }}</p>
+                </v-col>
+                <v-col cols="9" style="padding: 0">
+                  <p>
+                    <strong>Ngày :</strong>
+                    {{ ticket.openDate | day }} {{ ticket.openDate | time }}
+                  </p>
+                </v-col>
+              </v-row>
+
+              <!-- Price -->
+              <div class="form-group basket-border-top mb-3">
+                <v-row class="basket-font-size-money" style="margin: 0">
+                  <v-col cols="8" class="text-left pl-1" style="padding: 0">
+                    <strong>
+                      VÉ {{ index + 1 }} :
+                      <span style="color: red">
+                        {{ $formatMoney({ amount: item.totalPrice }) }}đ
+                      </span>
+                    </strong>
+                  </v-col>
+                  <v-col cols="4" class="text-right" style="padding: 0">
+                    <a
+                      @click="basketCancelDonhang(index, item.category)"
+                      href="javascript:void(0)"
+                    >
+                      <i
+                        class="fa fa-trash-o"
+                        style="color: red; font-size: 14px"
+                      ></i>
+                      <strong>HỦY VÉ</strong>
+                    </a>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </div>
+
+          <!-- OmMax3DPlus -->
+          <div class="form-group mb-3" v-if="item.category == 5">
+            <div class="basket-group-baobao">
+              <img src="/logo_max3d_dam.png" width="80px" height="auto" />
+              <!-- Level -->
+              <div class="form-group text-center">
+                <p style="padding-top: 7px"></p>
+                <p class="basket-group-level">ÔM Max3D+</p>
+                <p></p>
+              </div>
+
+              <!-- Number -->
+              <div class="basketCircle">
+                <table style="width: 100%">
+                  <tbody>
+                    <tr>
+                      <td style="width: 1%">
+                        <span class="key">A</span>
+                      </td>
+                      <td style="width: 10%">
+                        <span class="step"> {{ item.numberStc }} </span>
+                      </td>
+                      <td style="width: 1%">
+                        <span class="step">{{ item.numberFrom }}</span>
+                      </td>
+                      <td style="width: 1%; text-align: center">
+                        <span class="step"> ∼ </span>
+                      </td>
+                      <td style="width: 10%">
+                        <span class="step">{{ item.numberTo }}</span>
+                      </td>
+                      <td style="width: 5%; color: red">
+                        {{ $formatMoney({ amount: item.unitPrice }) }}đ
                       </td>
                     </tr>
                   </tbody>
@@ -305,7 +387,7 @@ export default {
       if (day > 1) {
         str = "T" + day;
       } else {
-        str = "CN"
+        str = "CN";
       }
       return str;
     },
@@ -342,6 +424,14 @@ export default {
       }
       //Mega645
       if (this.delCategory == 1) {
+        this.totalPrice =
+          this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
+        this.dataCart.splice(this.indexDelOne, 1);
+        this.renewCookieCart();
+        this.closeConfirmDel();
+      }
+      //OmMax3DPlus
+       if (this.delCategory == 5) {
         this.totalPrice =
           this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
         this.dataCart.splice(this.indexDelOne, 1);
@@ -419,13 +509,16 @@ export default {
         if (item.category == 1) {
           price = price + item.totalPrice;
         }
+        if (item.category == 5) {
+          price = price + item.totalPrice;
+        }
       });
       this.dataCart = dataCart;
       this.totalPrice = price;
     },
 
     renewCookieCart() {
-      this.$renewCookieCart({dataCart: this.dataCart})
+      this.$renewCookieCart({ dataCart: this.dataCart });
     },
   },
 };

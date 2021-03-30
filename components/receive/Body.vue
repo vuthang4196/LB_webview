@@ -263,12 +263,16 @@ export default {
       let price = this.totalPrice;
 
       let dataCart = this.$getCartData();
-
       dataCart.map(function (item, index) {
+        //power655
         if (item.category == 3) {
           price = price + item.totalPrice;
         }
+        //mega645
         if (item.category == 1) {
+          price = price + item.totalPrice;
+        }
+        if (item.category == 5) {
           price = price + item.totalPrice;
         }
       });

@@ -11,7 +11,7 @@
           </v-col>
           <v-col cols="1" />
           <v-col cols="5" class="dialog-custom-col text-center title-custom">
-            <span style="padding-left:30px">Số kết thúc</span>
+            <span style="padding-left: 30px">Số kết thúc</span>
           </v-col>
           <v-col cols="1 text-right" class="dialog-custom-col">
             <v-btn
@@ -170,9 +170,9 @@ export default {
   },
   methods: {
     setDefaultSelectedNum() {
-       for (var i = 0; i < 3; i++) {
-        this.selectedNumFrom[i] = this.selectedFrom.charAt(i)
-        this.selectedNumTo[i] = this.selectedTo.charAt(i)
+      for (var i = 0; i < 3; i++) {
+        this.selectedNumFrom[i] = this.selectedFrom.charAt(i);
+        this.selectedNumTo[i] = this.selectedTo.charAt(i);
       }
     },
     ommax3dPlusChooseFrom(index, num) {
@@ -230,9 +230,9 @@ export default {
           msg = "Bạn phải đặt tối thiểu 10 vé";
           this.setContentSnackBar(msg);
         } else {
-          this.$emit('update:selectedFrom', numFrom)
-          this.$emit('update:selectedTo', numTo)
-          this.$emit('update:modalNumber', false)
+          this.$emit("update:selectedFrom", numFrom);
+          this.$emit("update:selectedTo", numTo);
+          this.$emit("update:modalNumber", false);
         }
       }
     },

@@ -47,7 +47,52 @@ const state = function () {
     },
     cookieCartChange: false,
     momoFee: 3,
-    defaultPrice_omMax3DPlus: [10000, 20000, 50000, 100000, 200000]
+    defaultPrice_omMax3DPlus: [10000, 20000, 50000, 100000, 200000],
+    defaultPrice_Max3DPlus: [
+      {
+        value: 10000,
+        text: "10K",
+      },
+      {
+        value: 20000,
+        text: "20K",
+      },
+      {
+        value: 50000,
+        text: "50K",
+      },
+      {
+        value: 100000,
+        text: "100K",
+      },
+      {
+        value: 200000,
+        text: "200K",
+      },
+    ],
+    max3dPlusSelectBao: [
+      {
+        value: 1,
+        text: "3D+ Cơ bản",
+      },
+      {
+        value: 2,
+        text: "3D+ Tổ hợp",
+      },
+      {
+        value: 3,
+        text: "3D+ Bao",
+      },
+      {
+        value: 4,
+        text: "3D+ Cuộn 1",
+      },
+      {
+        value: 5,
+        text: "3D+ Cuộn 3",
+      },
+    ],
+    levelMax3dPlus: 4,
   }
 }
 

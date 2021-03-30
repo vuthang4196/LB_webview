@@ -57,13 +57,13 @@
                 </td>
                 <td
                   style="width: auto; text-align: center"
-                  onclick="ommax3dPlusOpenModalNumberStc();"
+                  @click="ommax3dPlusOpenModalNumberStc()"
                 >
                   <span
                     class="step stepStc"
                     style="margin-right: 0"
                     id="ommax3dPlusStc"
-                    >&nbsp;{{ selectedData.number }}</span
+                    >&nbsp;{{ selectedNumStc }}</span
                   >
                   <input type="hidden" id="ommax3dPlusStcHid" />
                 </td>
@@ -129,9 +129,7 @@
             <v-row
               style="margin: 0"
               v-if="
-                selectedData.number != null &&
-                selectedFrom != '' &&
-                selectedFrom != ''
+                selectedNumStc != '' && selectedFrom != '' && selectedFrom != ''
               "
             >
               <v-col
@@ -141,9 +139,7 @@
                 v-for="(i, index) in totalNumbers"
                 :key="i"
               >
-                <span>
-                  {{selectedData.number}}&nbsp;&nbsp;
-                </span>
+                <span> {{ selectedNumStc }}&nbsp;&nbsp; </span>
                 <span v-if="index + parseInt(selectedFrom) < 10">
                   00{{ index + parseInt(selectedFrom) }}
                 </span>
@@ -200,6 +196,30 @@
       </v-row>
     </div>
 
+    <v-snackbar
+      v-model="snackBar.show"
+      :timeout="snackBar.timeout"
+      top
+      right
+      class="custom-snack-bar custom-snack-bar-number"
+    >
+      <v-row style="margin: 0">
+        <v-col cols="11" style="padding: 0; padding-top: 10px">
+          <span><i class="fa fa-info-circle"></i> {{ snackBar.msg }}</span>
+        </v-col>
+        <v-col cols="1" class="text-right" style="padding: 0">
+          <v-btn
+            color="blue"
+            class="btn-close-snackbar"
+            text
+            @click="snackBar.show = false"
+          >
+            ×
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-snackbar>
+
     <ModalKyQuay
       v-if="modalKyQuay"
       :modalKyQuay.sync="modalKyQuay"
@@ -223,6 +243,13 @@
       :selectedTo.sync="selectedTo"
       :color="colorModalNumber"
     />
+
+    <ModalNumberStc
+      v-if="modalNumberStc"
+      :modalNumberStc.sync="modalNumberStc"
+      :selectedNumStc.sync="selectedNumStc"
+      :color="colorModalNumber"
+    />
   </div>
 </template>
 
@@ -230,6 +257,7 @@
 import ModalKyQuay from "~/components/common/ModalKyQuay.vue";
 import ModalDonGia from "~/components/common/ModalDonGia.vue";
 import ModalNumberOm3DMaxPlus from "~/components/common/ModalNumberOm3DMaxPlus.vue";
+import ModalNumberStc from "~/components/common/ModalNumberStc.vue";
 
 import API from "~/components/common/example_data.js";
 import Cookies from "js-cookie";
@@ -238,10 +266,11 @@ export default {
     ModalKyQuay,
     ModalDonGia,
     ModalNumberOm3DMaxPlus,
+    ModalNumberStc,
   },
   data() {
     return {
-      color: "#DD0E11",
+      color: "#F27F24",
       modalKyQuay: false,
       dataKyQuay: [],
       selectedKyQuay: [],
@@ -251,11 +280,7 @@ export default {
       strSelectedDonGia: "",
       defaultCategory: 5,
       showBtnCart: false,
-      selectedData: {
-        number: null,
-        from: null,
-        to: null,
-      },
+      selectedNumStc: "",
       totalNumber: 999,
       modalNumber: false,
       colorModalNumber: "#555",
@@ -265,6 +290,13 @@ export default {
       totalNumbers: 0,
       numFrom: 0,
       numTo: 0,
+      modalNumberStc: false,
+      resultAddBasket: false,
+      snackBar: {
+        show: false,
+        msg: "",
+        timeout: "3000",
+      },
     };
   },
   watch: {
@@ -273,7 +305,7 @@ export default {
       this.getTotalPriceTicket();
     },
     selectedKyQuay: function (val) {
-       this.getTotalPriceTicket();
+      this.getTotalPriceTicket();
     },
     selectedFrom: function (val) {
       this.getTotalPriceTicket();
@@ -292,13 +324,17 @@ export default {
       let numFrom = parseInt(this.selectedFrom);
       let numTo = parseInt(this.selectedTo);
       this.totalNumbers = numTo - numFrom + 1;
-      this.totalPrice = this.totalNumbers * this.selectedDonGia * this.selectedKyQuay.length;
+      this.totalPrice =
+        this.totalNumbers * this.selectedDonGia * this.selectedKyQuay.length;
     },
     setShowBtnCart() {
       let dataCart = this.$getCartData();
       if (dataCart.length) {
         this.showBtnCart = true;
       }
+    },
+    ommax3dPlusOpenModalNumberStc() {
+      this.modalNumberStc = true;
     },
     showModalKyQuay() {
       this.modalKyQuay = true;
@@ -321,9 +357,68 @@ export default {
     goToCartPage() {
       this.$redirect({ url: "/momo/basket", samepage: true });
     },
-    omMax3dPlusBtnBuyNow() {},
+    omMax3dPlusBtnBuyNow() {
+      this.omMax3dPlusAddBasket();
+      if (this.resultAddBasket == true) {
+        this.$redirect({ url: "/momo/receive", samepage: true });
+      }
+    },
     omMax3dPlusAddBasket() {
-      alert("111");
+      if (
+        this.selectedFrom == "" ||
+        this.selectedTo == "" ||
+        this.selectedNumStc == ""
+      ) {
+        let msg = "Bạn chưa chọn đủ bộ số";
+        this.setContentSnackBar(msg);
+        return;
+      }
+      if (this.selectedKyQuay.length == 0) {
+        let msg = "Bạn chưa chọn kỳ quay";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      let cart = this.$getCartData();
+
+      let cartPrice = 0;
+      cartPrice = cartPrice + this.totalPrice;
+      cart.map(function (item, index) {
+        cartPrice = cartPrice + item.totalPrice;
+      });
+
+      if (cartPrice > 50000000) {
+        let msg =
+          "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      let cartOmMax3DPlus =
+        Cookies.get("LUCKYBEST_omMax3DPlus") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_omMax3DPlus"))
+          : [];
+      let dataSelectedKyQuay = this.selectedKyQuay;
+      let kyQuay = this.dataKyQuay.filter(function (item, key) {
+        return dataSelectedKyQuay.includes(item.drawCode);
+      });
+      let dataCart = {
+        numberStc: this.selectedNumStc,
+        numberFrom: this.selectedFrom,
+        numberTo: this.selectedTo,
+        tickets: kyQuay,
+        totalPrice: this.totalPrice,
+        unitPrice: this.selectedDonGia,
+        category: this.defaultCategory,
+      };
+      cartOmMax3DPlus.push(dataCart);
+      Cookies.set("LUCKYBEST_omMax3DPlus", JSON.stringify(cartOmMax3DPlus), {});
+      this.setDefaultSelectedData();
+      let msg = "Thêm vào giỏ hàng thành công";
+      this.setContentSnackBar(msg);
+      this.resultAddBasket = true;
+      this.setShowBtnCart();
+      this.$store.dispatch("app/setCookieCartChange", true);
     },
 
     ommax3dPlusBtnOnclickRandomDel() {
@@ -334,10 +429,22 @@ export default {
       if (random > 10 && random < 100) {
         random = "0" + random;
       }
-      this.selectedData.number = random;
+      this.selectedNumStc = random.toString();
     },
     ommax3dPlusOpenModalNumber() {
       this.modalNumber = true;
+    },
+    setDefaultSelectedData() {
+      this.selectedNumStc = "";
+      this.selectedFrom = "";
+      this.selectedTo = "";
+    },
+    setContentSnackBar(msg) {
+      this.snackBar = {
+        show: true,
+        timeout: 3000,
+        msg: msg,
+      };
     },
   },
 };

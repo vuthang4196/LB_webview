@@ -331,6 +331,14 @@ export default function (context, inject) {
         cartData.push(item);
       });
 
+      let cartMax3DPlus =
+        Cookies.get("LUCKYBEST_omMax3DPlus") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_omMax3DPlus"))
+          : [];
+        cartMax3DPlus.map(function (item, index) {
+        cartData.push(item);
+      });
+
       return cartData;
     } catch (e) {
       console.log(e)
@@ -341,24 +349,32 @@ export default function (context, inject) {
       let dataCart = payload.dataCart;
       let newCartPower655 = [];
       let newCartMega645 = [];
+      let newCartOmMax3DPlus = [];
       dataCart.map(function (item, index) {
         //Power655
         if (item.category == 3) {
           newCartPower655.push(item);
         }
-        
         //Mega645
         if (item.category == 1) {
           newCartMega645.push(item);
         }
+        //Max3DPlus
+        if (item.category == 5) {
+          newCartOmMax3DPlus.push(item);
+        }
       });
       Cookies.remove("LUCKYBEST_Power655");
       Cookies.remove("LUCKYBEST_Mega645");
+      Cookies.remove("LUCKYBEST_omMax3DPlus");
       if (newCartPower655.length) {
         Cookies.set("LUCKYBEST_Power655", JSON.stringify(newCartPower655), {});
       }
       if (newCartMega645.length) {
         Cookies.set("LUCKYBEST_Mega645", JSON.stringify(newCartMega645), {});
+      }
+      if (newCartOmMax3DPlus.length) {
+        Cookies.set("LUCKYBEST_omMax3DPlus", JSON.stringify(newCartOmMax3DPlus), {});
       }
 
       return;

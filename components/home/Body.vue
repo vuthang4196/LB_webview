@@ -409,7 +409,9 @@ export default {
        this.$redirect({ url: "/momo/ommax3dplus", samepage: true });
     },
 
-    homeOpenMax3DPlus() {},
+    homeOpenMax3DPlus() {
+      this.$redirect({ url: "/momo/max3dplus", samepage: true });
+    },
 
     homeOpenMax4D() {},
 

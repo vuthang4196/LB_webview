@@ -399,7 +399,7 @@ export default {
       let data = this.selectedData.filter(function (item, key) {
         return item.length > 0;
       });
-      if (this.selectedKyQuay == 0) {
+      if (this.selectedKyQuay.length == 0) {
         let msg = "Bạn chưa chọn kỳ quay";
         this.setContentSnackBar(msg);
       } else {
