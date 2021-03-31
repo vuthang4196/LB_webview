@@ -5,6 +5,9 @@
         <v-card-title
           class="lighten-2 dialog-custom header-modal-cach-choi"
           :style="{ background: color }"
+          :class="{
+            'header-dialog-done-number': checkedFromTo == true
+          }"
         >
           <v-col cols="5" class="dialog-custom-col text-center title-custom">
             Số bắt đầu

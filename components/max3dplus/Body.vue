@@ -80,18 +80,40 @@
                       {{ $commonBuildABCAll(index + 1) }}
                     </span>
                   </td>
-                  <td style="width: 50%" @click="max3dPlusOpenModalNumber()">
-                    <span class="step">&nbsp;</span>
-                    <span class="step">&nbsp;</span>
+                  <td
+                    style="width: 50%"
+                    @click="max3dPlusOpenModalNumber(index)"
+                  >
+                    <span class="step">
+                      {{ item.from != "" ? item.from : "&nbsp;" }}
+                    </span>
+                    <span class="step">
+                      {{ item.to != "" ? item.to : "&nbsp;" }}
+                    </span>
                   </td>
                   <td style="width: 15%">
                     <span
                       class="step_btn"
-                      @click="max3dPlusBtnOnclickRandomDel()"
+                      @click="max3dPlusBtnOnclickRandomDel(index)"
+                      :class="{
+                        displayNoneKyQuay: item.from != '' && item.to != '',
+                      }"
                     >
                       <i
                         style="font-size: 20px; font-weight: 700"
                         class="fa fa-refresh"
+                      ></i>
+                    </span>
+                    <span
+                      class="step_btn"
+                      @click="max3dPlusBtnOnclickDel(index)"
+                      :class="{
+                        displayNoneKyQuay: item.from == '' && item.to == '',
+                      }"
+                    >
+                      <i
+                        style="font-size: 20px; font-weight: 700"
+                        class="fa fa-trash-o"
                       ></i>
                     </span>
                   </td>
@@ -124,12 +146,14 @@
       <div class="max3dPlusCircle text-right">
         <strong>Tạm tính:</strong>
         <strong style="color: red">
-          <span id="max3dPlusCountAllMoney" class="pr-2"> 0đ </span>
+          <span id="max3dPlusCountAllMoney" class="pr-2">
+            {{ $formatMoney({ amount: totalPrice }) }}đ
+          </span>
         </strong>
       </div>
     </div>
 
-    <div class="form-group mb-3">
+    <div class="form-group mb-3 px-1">
       <v-btn
         @click="max3dPlusBtnToChonnhanh()"
         class="btn btn-danger btn-block btn-md btn-quick-select btn-quick-select-max3dplus"
@@ -174,6 +198,30 @@
       </v-row>
     </div>
 
+    <v-snackbar
+      v-model="snackBar.show"
+      :timeout="snackBar.timeout"
+      top
+      right
+      class="custom-snack-bar custom-snack-bar-number"
+    >
+      <v-row style="margin: 0">
+        <v-col cols="11" style="padding: 0; padding-top: 10px">
+          <span><i class="fa fa-info-circle"></i> {{ snackBar.msg }}</span>
+        </v-col>
+        <v-col cols="1" class="text-right" style="padding: 0">
+          <v-btn
+            color="blue"
+            class="btn-close-snackbar"
+            text
+            @click="snackBar.show = false"
+          >
+            ×
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-snackbar>
+
     <ModalCachChoi
       v-if="modalCachChoi"
       :modalCachChoi.sync="modalCachChoi"
@@ -189,17 +237,31 @@
       :selectedKyQuay.sync="selectedKyQuay"
       :color="color"
     />
+
+    <ModalNumber
+      v-if="modalNumber"
+      :modalNumber.sync="modalNumber"
+      :color="colorModalNumber"
+      :selectedKey="selectedKey"
+      :max3dPlusSelectBao="max3dPlusSelectBao"
+      :typeBao="typeBao"
+      :selectedData="selectedData"
+      @updateSelectedData="updateSelectedData"
+    />
   </div>
 </template>
 <script>
 import ModalCachChoi from "~/components/common/ModalMax3DPlusCachChoi.vue";
 import ModalKyQuay from "~/components/common/ModalKyQuay.vue";
+import ModalNumber from "~/components/common/ModalNumber3DMaxPlus.vue";
 
 import API from "~/components/common/example_data.js";
+import Cookies from "js-cookie";
 export default {
   components: {
     ModalCachChoi,
     ModalKyQuay,
+    ModalNumber,
   },
   data() {
     return {
@@ -216,23 +278,44 @@ export default {
       selectedData: [],
       dataSelectedPrice: [],
       showBtnCart: false,
+      totalNumber: 999,
+      selectedKey: 0,
+      modalNumber: false,
+      colorModalNumber: "#555",
+      totalPrice: 0,
+      resultAddBasket: false,
+      snackBar: {
+        show: false,
+        msg: "",
+        timeout: "3000",
+      },
     };
   },
   watch: {
     selectedData: {
       handler(val) {
-        console.log(val);
+        this.getTotalPrice();
       },
       deep: true,
     },
+    selectedKyQuay: function (val) {
+      this.getTotalPrice();
+    },
   },
   mounted() {
+    this.setShowBtnCart();
     this.getDefaultMax3dPlusSelectBao();
     this.getDataKyQuay();
     this.setDefaultSelectedData();
     this.setDefaultSelectedPrice();
   },
   methods: {
+    setShowBtnCart() {
+      let dataCart = this.$getCartData();
+      if (dataCart.length) {
+        this.showBtnCart = true;
+      }
+    },
     showModalCachChoi() {
       this.modalCachChoi = true;
     },
@@ -241,7 +324,10 @@ export default {
       this.modalKyQuay = true;
     },
 
-    max3dPlusOpenModalNumber() {},
+    max3dPlusOpenModalNumber(index) {
+      this.selectedKey = index;
+      this.modalNumber = true;
+    },
 
     getDefaultMax3dPlusSelectBao() {
       let constData = this.$store.state.app.max3dPlusSelectBao;
@@ -270,23 +356,141 @@ export default {
         };
       }
       this.selectedData = arr;
-      console.log(this.selectedData);
     },
     setDefaultSelectedPrice() {
       this.dataSelectedPrice = this.$store.state.app.defaultPrice_Max3DPlus;
     },
-    max3dPlusBtnOnclickRandomDel() {
-      alert("111");
-    },
-    max3dPlusAddBasket() {
-      alert("2222");
-    },
-    max3dPlusBtnBuyNow() {
-      alert("333");
+    max3dPlusBtnOnclickRandomDel(index) {
+      let randomFrom = Math.floor(
+        Math.random() * (this.totalNumber - 1 + 1) + 1
+      );
+      this.selectedData[index].from = this.convertNumberSelected(randomFrom);
+
+      let randomTo = Math.floor(Math.random() * (this.totalNumber - 1 + 1) + 1);
+      this.selectedData[index].to = this.convertNumberSelected(randomTo);
     },
     max3dPlusBtnToChonnhanh() {
-      alert('444')
-    }
+      for (var i = 0; i < this.$store.state.app.levelMax3dPlus; i++) {
+        if (this.selectedData[i].from == "" && this.selectedData[i].to == "") {
+          let randomFrom = Math.floor(
+            Math.random() * (this.totalNumber - 1 + 1) + 1
+          );
+          this.selectedData[i].from = this.convertNumberSelected(randomFrom);
+
+          let randomTo = Math.floor(
+            Math.random() * (this.totalNumber - 1 + 1) + 1
+          );
+          this.selectedData[i].to = this.convertNumberSelected(randomTo);
+
+          return;
+        }
+      }
+    },
+    max3dPlusBtnOnclickDel(index) {
+      this.selectedData[index].from = "";
+      this.selectedData[index].to = "";
+    },
+    convertNumberSelected(number) {
+      if (number < 10) {
+        number = "00" + number;
+      }
+      if (number > 10 && number < 100) {
+        number = "0" + number;
+      }
+
+      return number.toString();
+    },
+
+    updateSelectedData(data, index) {
+      this.selectedData[index] = data;
+      this.selectedKey = 0;
+    },
+    getTotalPrice() {
+      let total = 0;
+      let kyQuay = this.selectedKyQuay;
+      this.selectedData.map(function (item, index) {
+        if (item.from != "" && item.to != "" && item.price != 0) {
+          total = total + parseInt(item.price) * kyQuay.length;
+        }
+      });
+      this.totalPrice = total;
+    },
+    max3dPlusBtnBuyNow() {
+      this.max3dPlusAddBasket();
+      if (this.resultAddBasket == true) {
+        this.$redirect({ url: "/momo/receive", samepage: true });
+      }
+    },
+    goToCartPage() {
+      this.$redirect({ url: "/momo/basket", samepage: true });
+    },
+    max3dPlusAddBasket() {
+      let dataMax3DPlus = this.selectedData.filter(function (item, index) {
+        return item.from != "" && item.to != "" && item.price != 0;
+      });
+      if (dataMax3DPlus.length == 0) {
+        let msg = "Bạn chưa chọn bộ số nào";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      if (this.selectedKyQuay.length == 0) {
+        let msg = "Bạn chưa chọn kỳ quay";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      let cart = this.$getCartData();
+
+      let cartPrice = 0;
+      cartPrice = cartPrice + this.totalPrice;
+      cart.map(function (item, index) {
+        cartPrice = cartPrice + item.totalPrice;
+      });
+
+      if (cartPrice > 50000000) {
+        let msg =
+          "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      let cartMax3DPlus =
+        Cookies.get("LUCKYBEST_Max3DPlus") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Max3DPlus"))
+          : [];
+      let dataSelectedKyQuay = this.selectedKyQuay;
+      let kyQuay = this.dataKyQuay.filter(function (item, key) {
+        return dataSelectedKyQuay.includes(item.drawCode);
+      });
+      let selectedTypeBao = this.typeBao;
+      let dataTypeBao = this.max3dPlusSelectBao.filter(function (item, key) {
+        return item.value == selectedTypeBao;
+      })
+      let dataCart = {
+        numbers: dataMax3DPlus,
+        tickets: kyQuay,
+        totalPrice: this.totalPrice,
+        category: this.defaultCategory,
+        om: false,
+        selectedTypeBao: dataTypeBao[0]
+      };
+      cartMax3DPlus.push(dataCart);
+      Cookies.set("LUCKYBEST_Max3DPlus", JSON.stringify(cartMax3DPlus), {});
+      this.setDefaultSelectedData();
+      let msg = "Thêm vào giỏ hàng thành công";
+      this.setContentSnackBar(msg);
+      this.resultAddBasket = true;
+      this.setShowBtnCart();
+      this.$store.dispatch("app/setCookieCartChange", true);
+    },
+    setContentSnackBar(msg) {
+      this.snackBar = {
+        show: true,
+        timeout: 3000,
+        msg: msg,
+      };
+    },
   },
 };
 </script>

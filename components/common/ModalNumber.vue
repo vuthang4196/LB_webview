@@ -15,7 +15,7 @@
           }"
         >
           <v-col cols="2" style="padding: 0">
-            <span class="pl-1 pb-1 selected-row-number">
+            <span class="pl-1 pb-1 selected-row-number" style="padding-right: 10px; color: #ffe003; font-weight: bold;">
               {{ $commonBuildABCAll(selectedKey) }}
             </span>
           </v-col>

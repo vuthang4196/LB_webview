@@ -1642,7 +1642,7 @@ html {
   position: relative;
 }
 
-.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel {
+.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel, .custom-dialog-number-body .max3dPlusCircleModal .step_sel {
   border: #000000 solid 1px;
   border-radius: 1.2em;
   -moz-border-radius: 1.2em;
@@ -1659,7 +1659,7 @@ html {
   cursor: pointer;
 }
 
-.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel.otron_checked {
+.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel.otron_checked, .custom-dialog-number-body .max3dPlusCircleModal .step_sel.otron_checked {
   color: white !important;
   border: red solid 1px !important;
   background-color: red !important;
@@ -1701,7 +1701,23 @@ html {
 }
 
 .panel-body-common select.minimal {
-  background-image:  url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wMdBhAJ/fwnjwAAAGFJREFUKM9jYBh+gBFKuzEwMKQwMDB8xaOWlYGB4T4DA0MrsuapDAwM//HgNwwMDDbYTJuGQ8MHBgYGJ1xOYGNgYJiBpuEpAwODHSF/siDZ+ISBgcGClEDqZ2Bg8B6CkQsAPRga0cpRtDEAAAAASUVORK5CYII=);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wMdBhAJ/fwnjwAAAGFJREFUKM9jYBh+gBFKuzEwMKQwMDB8xaOWlYGB4T4DA0MrsuapDAwM//HgNwwMDDbYTJuGQ8MHBgYGJ1xOYGNgYJiBpuEpAwODHSF/siDZ+ISBgcGClEDqZ2Bg8B6CkQsAPRga0cpRtDEAAAAASUVORK5CYII=);
   background-position: calc(100% - 8px) calc(1em + -4px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
   background-repeat: no-repeat;
+}
+
+.max3dPlusCircleModal {
+  position: relative;
+}
+
+.custom-dialog-number-body .btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.custom-dialog-number-body .select_price {
+  color: #fff;
+  background-color: #ec1b30;
+  border-color: #ec1b30;
 }

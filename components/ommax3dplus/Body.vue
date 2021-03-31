@@ -410,6 +410,7 @@ export default {
         totalPrice: this.totalPrice,
         unitPrice: this.selectedDonGia,
         category: this.defaultCategory,
+        om: true,
       };
       cartOmMax3DPlus.push(dataCart);
       Cookies.set("LUCKYBEST_omMax3DPlus", JSON.stringify(cartOmMax3DPlus), {});

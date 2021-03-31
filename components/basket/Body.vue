@@ -112,9 +112,9 @@
                   <tbody>
                     <tr v-for="(nums, key) in item.numbers" :key="key">
                       <td style="width: 10%">
-                        <span class="key">{{
-                          $commonBuildABCAll(key + 1)
-                        }}</span>
+                        <span class="key">
+                          {{ $commonBuildABCAll(key + 1) }}
+                        </span>
                       </td>
                       <td style="width: 70%">
                         <span class="step" v-for="(num, i) in nums" :key="i">
@@ -181,8 +181,105 @@
             </div>
           </div>
 
+          <!-- Max3DPlus -->
+          <div
+            class="form-group mb-3"
+            v-if="item.category == 5 && item.om == false"
+          >
+            <div class="basket-group-baobao">
+              <img src="/logo_max3d_dam.png" width="80px" height="auto" />
+              <!-- Level -->
+              <div class="form-group text-center">
+                <p style="padding-top: 7px"></p>
+                <p class="basket-group-level">
+                  {{ item.selectedTypeBao.text }}
+                </p>
+                <p></p>
+              </div>
+
+              <!-- Number -->
+              <div class="basketCircle">
+                <table style="width: 100%">
+                  <tbody>
+                    <tr v-for="(nums, key) in item.numbers" :key="key">
+                      <td style="width: 10%">
+                        <span class="key">
+                          {{ $commonBuildABCAll(key + 1) }}
+                        </span>
+                      </td>
+                      <td style="width: 30%">
+                        <span style="font-weight: bold">
+                          {{ nums.from }}&nbsp;&nbsp;{{ nums.to }}
+                        </span>
+                      </td>
+                      <td style="width: 40%; color: red">
+                        {{ $formatMoney({ amount: nums.price }) }}đ
+                      </td>
+                      <td style="text-align: right; padding-right: 10px">
+                        <span
+                          class="step_btn"
+                          @click="cancelNumberRow(index, key, item.category)"
+                        >
+                          <i class="fa fa-trash-o"></i>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <br />
+              <!-- Ky Quay -->
+              <v-row
+                style="margin: 0"
+                class="basket-font-size-ky"
+                v-for="(ticket, t) in item.tickets"
+                :key="t"
+              >
+                <v-col cols="3" style="padding: 0" class="pl-1">
+                  <p><strong>Kỳ :</strong> #{{ ticket.drawCode }}</p>
+                </v-col>
+                <v-col cols="9" style="padding: 0">
+                  <p>
+                    <strong>Ngày :</strong>
+                    {{ ticket.openDate | day }} {{ ticket.openDate | time }}
+                  </p>
+                </v-col>
+              </v-row>
+
+              <!-- Price -->
+              <div class="form-group basket-border-top mb-3">
+                <v-row class="basket-font-size-money" style="margin: 0">
+                  <v-col cols="8" class="text-left pl-1" style="padding: 0">
+                    <strong>
+                      VÉ {{ index + 1 }} :
+                      <span style="color: red">
+                        {{ $formatMoney({ amount: item.totalPrice }) }}đ
+                      </span>
+                    </strong>
+                  </v-col>
+                  <v-col cols="4" class="text-right" style="padding: 0">
+                    <a
+                      @click="basketCancelDonhang(index, item.category)"
+                      href="javascript:void(0)"
+                    >
+                      <i
+                        class="fa fa-trash-o"
+                        style="color: red; font-size: 14px"
+                      ></i>
+                      <strong>HỦY VÉ</strong>
+                    </a>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </div>
+
           <!-- OmMax3DPlus -->
-          <div class="form-group mb-3" v-if="item.category == 5">
+          <div
+            class="form-group mb-3"
+            v-if="item.category == 5 && item.om == true"
+          >
             <div class="basket-group-baobao">
               <img src="/logo_max3d_dam.png" width="80px" height="auto" />
               <!-- Level -->
@@ -431,7 +528,7 @@ export default {
         this.closeConfirmDel();
       }
       //OmMax3DPlus
-       if (this.delCategory == 5) {
+      if (this.delCategory == 5) {
         this.totalPrice =
           this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
         this.dataCart.splice(this.indexDelOne, 1);
@@ -449,16 +546,7 @@ export default {
         let priceRow =
           defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
 
-        this.dataCart[this.indexDelOne].totalPrice =
-          this.dataCart[this.indexDelOne].totalPrice - priceRow;
-        this.totalPrice = this.totalPrice - priceRow;
-
-        this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
-        if (this.dataCart[this.indexDelOne].numbers.length == 0) {
-          this.dataCart.splice(this.indexDelOne, 1);
-        }
-        this.renewCookieCart();
-        this.closeConfirmDel();
+        this.deleteRow(priceRow);
       }
 
       // Mega645
@@ -470,17 +558,32 @@ export default {
         let priceRow =
           defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
 
-        this.dataCart[this.indexDelOne].totalPrice =
-          this.dataCart[this.indexDelOne].totalPrice - priceRow;
-        this.totalPrice = this.totalPrice - priceRow;
-
-        this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
-        if (this.dataCart[this.indexDelOne].numbers.length == 0) {
-          this.dataCart.splice(this.indexDelOne, 1);
-        }
-        this.renewCookieCart();
-        this.closeConfirmDel();
+        this.deleteRow(priceRow);
       }
+
+      // Max3DPlus
+      if (this.delCategory == 5) {
+        let defaultPrice = this.dataCart[this.indexDelOne].numbers[
+          this.numRowDelOne
+        ].price;
+
+        let priceRow = defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
+        this.deleteRow(priceRow);
+      }
+    },
+
+    deleteRow(priceRow) {
+      // set new total price for row
+      this.dataCart[this.indexDelOne].totalPrice =
+        this.dataCart[this.indexDelOne].totalPrice - priceRow;
+      // set new total price for cart
+      this.totalPrice = this.totalPrice - priceRow;
+      this.dataCart[this.indexDelOne].numbers.splice(this.numRowDelOne, 1);
+      if (this.dataCart[this.indexDelOne].numbers.length == 0) {
+        this.dataCart.splice(this.indexDelOne, 1);
+      }
+      this.renewCookieCart();
+      this.closeConfirmDel();
     },
 
     closeConfirmDel() {
