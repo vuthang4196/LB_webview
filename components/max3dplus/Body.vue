@@ -15,7 +15,7 @@
               style="pointer-events: none; line-height: 30px"
               class="form-control input-sm SelectClass"
             >
-              <option value="6">Cơ bản</option>
+              <option value="1">Cơ bản</option>
             </select>
             <p
               class="CaptionCont SelectBox pl-2"
@@ -64,7 +64,6 @@
       <div id="max3dPlusCircleOrderBao6" class="max3dPlusCircleOrderBao">
         <div class="form-group">
           <div
-            id="max3dPlusCircleOrderBao6A"
             class="max3dPlusCircle"
             v-for="(item, index) in selectedData"
             :key="index"
@@ -274,7 +273,6 @@ export default {
       modalCachChoi: false,
       modalKyQuay: false,
       defaultCategory: 5,
-      level: 4,
       selectedData: [],
       dataSelectedPrice: [],
       showBtnCart: false,

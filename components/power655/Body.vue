@@ -76,7 +76,7 @@
                     <span class="key step">{{ $commonBuildABCAll(key) }}</span>
                   </td>
                   <td
-                    style="width: 75%; text-align: left; padding-left: 15px"
+                    style="width: 75%; text-align: left; padding-left: 15px;matgin-top:1px;"
                     @click="power655OpenModalNumber(key)"
                   >
                     <span
@@ -85,11 +85,11 @@
                       :key="index"
                     >
                       {{
-                        selectedData[key - 1]
+                        selectedData[key - 1] && selectedData[key - 1].length > 0
                           ? selectedData[key - 1][index - 1] < 10
                             ? "0" + selectedData[key - 1][index - 1]
                             : selectedData[key - 1][index - 1]
-                          : ""
+                          : "&nbsp;"
                       }}
                     </span>
                   </td>

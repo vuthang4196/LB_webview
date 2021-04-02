@@ -2,9 +2,9 @@
   <div class="panel-common">
     <div
       class="panel cpanel-danger"
-      style="border: none; border-color: #82005d !important"
+      style="border: none; border-color: #B21B8F !important"
     >
-      <Header :color="color"/>
+      <Header :color="color" />
       <Top />
       <Body />
     </div>
@@ -14,13 +14,10 @@
 
 <script>
 import Header from "~/components/common/Header.vue";
-import Top from "~/components/ommax3dplus/Top.vue";
-import Body from "~/components/ommax3dplus/Body.vue";
-
+import Top from "~/components/max4d/Top.vue";
+import Body from "~/components/max4d/Body.vue";
 
 export default {
-  methods: {
-  },
   components: {
     Header,
     Top,
@@ -28,8 +25,8 @@ export default {
   },
   data() {
     return {
-      color: "#F27F24",
-    }
+      color: "#910068",
+    };
   },
 };
 </script>

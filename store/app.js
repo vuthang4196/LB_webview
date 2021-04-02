@@ -93,6 +93,59 @@ const state = function () {
       },
     ],
     levelMax3dPlus: 4,
+    max4DSelectBao: [
+      {
+        value: 1,
+        text: "Thường",
+      },
+      {
+        value: 2,
+        text: "Tổ hợp",
+      },
+      {
+        value: 3,
+        text: "Bao",
+      },
+      {
+        value: 4,
+        text: "Cuộn 1",
+      },
+      {
+        value: 5,
+        text: "Cuộn 4",
+      },
+    ],
+    defaultPrice_Max4D: [
+      {
+        value: 10000,
+        text: "10K",
+      },
+      {
+        value: 20000,
+        text: "20K",
+      },
+      {
+        value: 50000,
+        text: "50K",
+      },
+      {
+        value: 100000,
+        text: "100K",
+      },
+      {
+        value: 200000,
+        text: "200K",
+      },
+      {
+        value: 500000,
+        text: "500K",
+      },
+      {
+        value: 1000000,
+        text: "1000K",
+      }
+    ],
+    levelMax4D: 6,
   }
 }
 

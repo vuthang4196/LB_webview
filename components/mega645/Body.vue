@@ -85,11 +85,11 @@
                       :key="index"
                     >
                       {{
-                        selectedData[key - 1]
+                        selectedData[key - 1] && selectedData[key - 1].length > 0
                           ? selectedData[key - 1][index - 1] < 10
                             ? "0" + selectedData[key - 1][index - 1]
                             : selectedData[key - 1][index - 1]
-                          : ""
+                          : "&nbsp;"
                       }}
                     </span>
                   </td>
