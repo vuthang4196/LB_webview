@@ -84,7 +84,13 @@
                       v-for="key in defaultNumberInRow"
                       :key="key"
                     >
-                      {{ item.numbers[key - 1] ? item.numbers[key - 1] : "&nbsp;" }}
+                      {{
+                        item.numbers[key - 1]
+                          ? item.numbers[key - 1]
+                          : item.numbers[key - 1] === 0
+                          ? "0"
+                          : "&nbsp;"
+                      }}
                     </span>
                   </td>
                   <td style="width: 15%">
@@ -211,11 +217,22 @@
       :dataType="max4dSelectBao"
       :color="color"
     />
+
+    <ModalNumber
+      v-if="modalNumber"
+      :modalNumber.sync="modalNumber"
+      :color="colorModalNumber"
+      :selectedKey="selectedKey"
+      :typeBao="typeBao"
+      :selectedData="selectedData"
+      @updateSelectedData="updateSelectedData"
+    />
   </div>
 </template>
 <script>
 import ModalCachChoi from "~/components/common/ModalMax4DCachChoi.vue";
 import ModalKyQuay from "~/components/common/ModalKyQuay.vue";
+import ModalNumber from "~/components/common/ModalNumberMax4D.vue";
 
 import API from "~/components/common/example_data.js";
 import Cookies from "js-cookie";
@@ -223,6 +240,7 @@ export default {
   components: {
     ModalCachChoi,
     ModalKyQuay,
+    ModalNumber,
   },
   data() {
     return {
@@ -293,11 +311,8 @@ export default {
       for (var i = 0; i < this.$store.state.app.levelMax4D; i++) {
         arr[i] = {
           numbers: [],
-          price: 10000,
+          price: 1,
         };
-        // for (var k = 0; k < this.defaultNumberInRow; k++) {
-        //   arr[i].numbers[k] = "";
-        // }
       }
       this.selectedData = arr;
     },
@@ -320,35 +335,35 @@ export default {
           if (this.typeBao.value == 5) {
             this.selectedData[i].numbers[this.defaultNumberInRow - 1] = "*";
           }
-
-          // let totalNumberInRow = this.defaultNumberInRow
-          // if (this.typeBao.value == 4) {
-          //     this.selectedData[i].numbers[0] = "*";
-          //     totalNumberInRow= totalNumberInRow  - 1
-          // }
-          // if(this.typeBao.value == 5) {
-          //   this.selectedData[i].numbers[this.defaultNumberInRow - 1] = "*";
-          // }
-          // do {
-
-          //     let random = Math.floor(
-          //       Math.random() * (this.totalNumber - 1 + 1) + 1
-          //     );
-          //     if (!this.selectedData[i].numbers.includes(random)) {
-          //       this.selectedData[i].numbers.push(random);
-          //       this.selectedData[i].numbers.sort(this.$sortNumber());
-          //     }
-
-          // } while (this.selectedData[i].numbers.length <= this.defaultNumberInRow);
+          if (this.typeBao.value == 2 || this.typeBao.value == 3) {
+            let numberArr = JSON.parse(
+              JSON.stringify(this.selectedData[i].numbers)
+            );
+            if (
+              numberArr.every((val, i, arr) => val === arr[0] && val != null)
+            ) {
+              numberArr.pop();
+              let random = numberArr[0];
+              do {
+                random = Math.floor(
+                  Math.random() * (this.totalNumber - 1 + 1) + 1
+                );
+              } while (random == numberArr[0]);
+              numberArr.push(random);
+              this.selectedData[i].numbers = numberArr;
+            }
+          }
           return;
         }
       }
     },
-    max4DOpenModalNumber(index) {},
+    max4DOpenModalNumber(key) {
+      this.selectedKey = key;
+      this.modalNumber = true;
+    },
     max4DBtnOnclickRandom(key) {
       for (var k = 0; k < this.defaultNumberInRow; k++) {
         let random = Math.floor(Math.random() * (this.totalNumber - 1 + 1) + 1);
-
         this.selectedData[key].numbers.push(random);
       }
       if (this.typeBao.value == 4) {
@@ -357,11 +372,57 @@ export default {
       if (this.typeBao.value == 5) {
         this.selectedData[key].numbers[this.defaultNumberInRow - 1] = "*";
       }
+      if (this.typeBao.value == 2 || this.typeBao.value == 3) {
+        let numberArr = JSON.parse(
+          JSON.stringify(this.selectedData[key].numbers)
+        );
+        if (numberArr.every((val, i, arr) => val === arr[0] && val != null)) {
+          numberArr.pop();
+          let random = numberArr[0];
+          do {
+            random = Math.floor(Math.random() * (this.totalNumber - 1 + 1) + 1);
+          } while (random == numberArr[0]);
+          numberArr.push(random);
+          this.selectedData[key].numbers = numberArr;
+        }
+      }
     },
     max4DBtnOnclickDel(key) {
       this.selectedData[key].numbers = [];
     },
-    getTotalPrice() {},
+    updateSelectedData(data, index) {
+      let numbers = data.numbers;
+      this.selectedData[index].numbers = [];
+      for (let num in numbers) {
+        this.selectedData[index].numbers.push(parseInt(numbers[num]));
+      }
+      if (this.typeBao.value == 4) {
+        this.selectedData[index].numbers[0] = "*";
+      }
+      if (this.typeBao.value == 5) {
+        this.selectedData[index].numbers[this.defaultNumberInRow - 1] = "*";
+      }
+      this.selectedData[index].price = data.price;
+      this.selectedKey = 0;
+    },
+    getTotalPrice() {
+      let total = 0;
+      let kyQuay = this.selectedKyQuay;
+
+      this.selectedData.map(
+        function (item, index) {
+          if (item.numbers.length > 0) {
+            let numbers = JSON.parse(JSON.stringify(item.numbers));
+            let constPrice = this.$commonMax4dDefaultMoneyBao({
+              typeBao: this.typeBao.value,
+              numbers: numbers,
+            });
+            total = total + parseInt(item.price) * constPrice * kyQuay.length;
+          }
+        }.bind(this)
+      );
+      this.totalPrice = total;
+    },
 
     max4DBtnBuyNow() {},
 

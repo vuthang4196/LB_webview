@@ -1638,11 +1638,13 @@ html {
   min-height: 250px;
 }
 
-.custom-dialog-number .ommax3dPlusCircleModal {
+.custom-dialog-number .ommax3dPlusCircleModal, .custom-dialog-number .max4dCircleModal {
   position: relative;
 }
 
-.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel, .custom-dialog-number-body .max3dPlusCircleModal .step_sel {
+.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel, 
+.custom-dialog-number-body .max3dPlusCircleModal .step_sel,
+.custom-dialog-number-body .max4dCircleModal .step_sel {
   border: #000000 solid 1px;
   border-radius: 1.2em;
   -moz-border-radius: 1.2em;
@@ -1659,7 +1661,9 @@ html {
   cursor: pointer;
 }
 
-.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel.otron_checked, .custom-dialog-number-body .max3dPlusCircleModal .step_sel.otron_checked {
+.custom-dialog-number-body .ommax3dPlusCircleModal .step_sel.otron_checked,
+.custom-dialog-number-body .max3dPlusCircleModal .step_sel.otron_checked,
+.custom-dialog-number-body .max4dCircleModal .step_sel.otron_checked {
   color: white !important;
   border: red solid 1px !important;
   background-color: red !important;
@@ -1669,8 +1673,7 @@ html {
   border-right: 1px solid gray;
 }
 
-.panel-body-common .max3dPlusCircle,
-.panel-body-common .max4dCircle {
+.panel-body-common .max3dPlusCircle, .panel-body-common .max4dCircle {
   border-top: #999999 solid 1px;
   padding-top: 10px;
 }

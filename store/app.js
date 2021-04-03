@@ -117,31 +117,31 @@ const state = function () {
     ],
     defaultPrice_Max4D: [
       {
-        value: 10000,
+        value: 1,
         text: "10K",
       },
       {
-        value: 20000,
+        value: 2,
         text: "20K",
       },
       {
-        value: 50000,
+        value: 5,
         text: "50K",
       },
       {
-        value: 100000,
+        value: 10,
         text: "100K",
       },
       {
-        value: 200000,
+        value: 20,
         text: "200K",
       },
       {
-        value: 500000,
+        value: 50,
         text: "500K",
       },
       {
-        value: 1000000,
+        value: 100,
         text: "1000K",
       }
     ],

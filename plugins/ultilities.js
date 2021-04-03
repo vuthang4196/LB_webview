@@ -332,12 +332,12 @@ export default function (context, inject) {
       });
 
       let cartMax3DPlus =
-      Cookies.get("LUCKYBEST_Max3DPlus") !== undefined
-        ? JSON.parse(Cookies.get("LUCKYBEST_Max3DPlus"))
-        : [];
-    cartMax3DPlus.map(function (item, index) {
-      cartData.push(item);
-    });
+        Cookies.get("LUCKYBEST_Max3DPlus") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_Max3DPlus"))
+          : [];
+      cartMax3DPlus.map(function (item, index) {
+        cartData.push(item);
+      });
 
       let cartOmMax3DPlus =
         Cookies.get("LUCKYBEST_omMax3DPlus") !== undefined
@@ -395,6 +395,69 @@ export default function (context, inject) {
       }
 
       return;
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  inject('commonMax4dDefaultMoneyBao', payload => {
+    try {
+      let typeBao = payload.typeBao
+      let array_elements = payload.numbers
+      var giaveVND = 10000;
+
+      if (typeBao == 3) {
+          array_elements.sort();
+  
+          var current = null;
+          var cnt = 0;
+          var arrCount = new Array();
+          for (var i = 0; i < array_elements.length; i++) {
+              if (array_elements[i] != current) {
+                  if (cnt > 0) {
+                      arrCount.push(current);
+                  }
+                  current = array_elements[i];
+                  cnt = 1;
+              } else {
+                  cnt++;
+              }
+          }
+          if (cnt > 0) {
+              arrCount.push(current);
+          }
+  
+          var countsObj = {};
+          var flagV2 = false;
+          for (var ci = 0; ci < array_elements.length; ci++) {
+              var num = array_elements[ci];
+              countsObj[num] = countsObj[num] ? countsObj[num] + 1 : 1;
+          }
+  
+          if (arrCount.length == 2) {
+              var numberOne1 = countsObj[arrCount[0]];
+              var numberOne2 = countsObj[arrCount[1]];
+              if (numberOne1 == 3 || numberOne2 == 3) {
+                  flagV2 = true;
+              }
+          }
+  
+          var numberTextView = 1;
+          if (arrCount.length == 2 && flagV2) {
+              numberTextView = 4;
+          } else if (arrCount.length == 2) {
+              numberTextView = 6;
+          } else if (arrCount.length == 3) {
+              numberTextView = 12;
+          } else if (arrCount.length == 4) {
+              numberTextView = 24;
+          }
+  
+          giaveVND = giaveVND * numberTextView;
+      } else if (typeBao == 4 || typeBao == 5) {
+          giaveVND = 100000;
+      }
+  
+      return giaveVND;
     } catch (e) {
       console.log(e)
     }
