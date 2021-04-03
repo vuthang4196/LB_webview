@@ -23,6 +23,9 @@ export default {
     Top,
     Body,
   },
+  head: {
+    titleTemplate: 'Mega 6/45',
+  },
   data() {
     return {
       color: "#1B63B3",

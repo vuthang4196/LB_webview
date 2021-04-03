@@ -26,6 +26,9 @@ export default {
     Top,
     Body
   },
+  head: {
+    titleTemplate: 'Ôm Max 3D+',
+  },
   data() {
     return {
       color: "#F27F24",

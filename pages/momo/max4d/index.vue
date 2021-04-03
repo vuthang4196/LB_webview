@@ -2,7 +2,7 @@
   <div class="panel-common">
     <div
       class="panel cpanel-danger"
-      style="border: none; border-color: #B21B8F !important"
+      style="border: none; border-color: #b21b8f !important"
     >
       <Header :color="color" />
       <Top />
@@ -21,7 +21,10 @@ export default {
   components: {
     Header,
     Top,
-    Body
+    Body,
+  },
+  head: {
+    titleTemplate: 'Max 4D',
   },
   data() {
     return {

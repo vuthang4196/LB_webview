@@ -23,6 +23,9 @@ export default {
     Top,
     Body,
   },
+  head: {
+    titleTemplate: 'Power 6/55',
+  },
   data() {
     return {
       color: "#ed1e30",

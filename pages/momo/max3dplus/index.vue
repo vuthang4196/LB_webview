@@ -23,6 +23,9 @@ export default {
     Top,
     Body,
   },
+  head: {
+    titleTemplate: 'Max 3D+',
+  },
   data() {
     return {
       color: "#B21B8F",
