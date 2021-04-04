@@ -45,9 +45,10 @@ export default {
             moment(startTime, "DD/MM/YYYY HH:mm:ss")
           )
         );
+        let diffMin =  diff.minutes() + 10;
         let days = diff.days() < 10 ? "0" + diff.days() : diff.days();
         let hours = diff.hours() < 10 ? "0" + diff.hours() : diff.hours();
-        let mins = diff.minutes() < 10 ? "0" + diff.minutes() : diff.minutes();
+        let mins = diffMin < 10 ? "0" + diffMin : diffMin;
         let secs = diff.seconds() < 10 ? "0" + diff.seconds() : diff.seconds();
         let countTime = days + ":" + hours + ":" + mins + ":" + secs;
         this.date = countTime;

@@ -18,6 +18,9 @@ export default {
     Header,
     Body,
   },
+  head: {
+    titleTemplate: 'Chi tiết giỏ hàng',
+  },
   data() {
     return {
       color: "#ed1e30",

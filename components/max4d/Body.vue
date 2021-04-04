@@ -203,6 +203,30 @@
       </v-row>
     </div>
 
+    <v-snackbar
+      v-model="snackBar.show"
+      :timeout="snackBar.timeout"
+      top
+      right
+      class="custom-snack-bar custom-snack-bar-number"
+    >
+      <v-row style="margin: 0">
+        <v-col cols="11" style="padding: 0; padding-top: 10px">
+          <span><i class="fa fa-info-circle"></i> {{ snackBar.msg }}</span>
+        </v-col>
+        <v-col cols="1" class="text-right" style="padding: 0">
+          <v-btn
+            color="blue"
+            class="btn-close-snackbar"
+            text
+            @click="snackBar.show = false"
+          >
+            ×
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-snackbar>
+
     <ModalKyQuay
       v-if="modalKyQuay"
       :modalKyQuay.sync="modalKyQuay"
@@ -284,11 +308,18 @@ export default {
     },
   },
   mounted() {
+    this.setShowBtnCart();
     this.getDefaultMax4DSelectBao();
     this.getDataKyQuay();
     this.setDefaultSelectedData();
   },
   methods: {
+    setShowBtnCart() {
+      let dataCart = this.$getCartData();
+      if (dataCart.length) {
+        this.showBtnCart = true;
+      }
+    },
     getDefaultMax4DSelectBao() {
       this.max4dSelectBao = this.$store.state.app.max4DSelectBao;
       this.typeBao = this.max4dSelectBao[0];
@@ -312,6 +343,7 @@ export default {
         arr[i] = {
           numbers: [],
           price: 1,
+          numberTextView: "",
         };
       }
       this.selectedData = arr;
@@ -417,6 +449,11 @@ export default {
               typeBao: this.typeBao.value,
               numbers: numbers,
             });
+            let numberTextView = this.$commonMax4DBuildToHopByGroup({
+              typeBao: this.typeBao.value,
+              numbers: numbers,
+            });
+            item.numberTextView = numberTextView;
             total = total + parseInt(item.price) * constPrice * kyQuay.length;
           }
         }.bind(this)
@@ -424,9 +461,78 @@ export default {
       this.totalPrice = total;
     },
 
-    max4DBtnBuyNow() {},
+    max4DBtnBuyNow() {
+      this.max4DAddBasket();
+      if (this.resultAddBasket == true) {
+        this.$redirect({ url: "/momo/receive", samepage: true });
+      }
+    },
 
-    max4DAddBasket() {},
+    max4DAddBasket() {
+      let dataMax4D = this.selectedData.filter(function (item, index) {
+        return item.numbers.length > 0;
+      });
+      if (dataMax4D.length == 0) {
+        let msg = "Bạn chưa chọn bộ số nào";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      if (this.selectedKyQuay.length == 0) {
+        let msg = "Bạn chưa chọn kỳ quay";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      let cart = this.$getCartData();
+      let cartPrice = 0;
+      cartPrice = cartPrice + this.totalPrice;
+      cart.map(function (item, index) {
+        cartPrice = cartPrice + item.totalPrice;
+      });
+      if (cartPrice > 50000000) {
+        let msg =
+          "Giá tri giỏ hàng (sau khi cộng thêm phí) không được lớn hơn 50 triệu";
+        this.setContentSnackBar(msg);
+        return;
+      }
+
+      let cartMax4D =
+        Cookies.get("LUCKYBEST_max4D") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_max4D"))
+          : [];
+      let dataSelectedKyQuay = this.selectedKyQuay;
+      let kyQuay = this.dataKyQuay.filter(function (item, key) {
+        return dataSelectedKyQuay.includes(item.drawCode);
+      });
+
+      let selectedTypeBao = this.typeBao;
+      let dataCart = {
+        numbers: dataMax4D,
+        tickets: kyQuay,
+        totalPrice: this.totalPrice,
+        category: this.defaultCategory,
+        selectedTypeBao: selectedTypeBao
+      };
+
+      cartMax4D.push(dataCart);
+      Cookies.set("LUCKYBEST_max4D", JSON.stringify(cartMax4D), {});
+      console.log(Cookies.get("LUCKYBEST_max4D"));
+      this.setDefaultSelectedData();
+      let msg = "Thêm vào giỏ hàng thành công";
+      this.setContentSnackBar(msg);
+      this.resultAddBasket = true;
+      this.setShowBtnCart();
+      this.$store.dispatch("app/setCookieCartChange", true);
+    },
+
+    setContentSnackBar(msg) {
+      this.snackBar = {
+        show: true,
+        timeout: 3000,
+        msg: msg,
+      };
+    },
   },
 };
 </script>

@@ -275,6 +275,10 @@ export default {
         if (item.category == 5) {
           price = price + item.totalPrice;
         }
+        //max4D
+        if (item.category == 2) {
+          price = price + item.totalPrice;
+        }
       });
       this.dataCart = dataCart;
       this.totalPrice = price;

@@ -181,6 +181,104 @@
             </div>
           </div>
 
+          <!-- Max4D -->
+          <div class="form-group mb-3" v-if="item.category == 2">
+            <div class="basket-group-baobao">
+              <img src="/max4d_logo.png" width="80px" height="auto" />
+              <!-- Level -->
+              <div class="form-group text-center">
+                <p style="padding-top: 7px"></p>
+                <p class="basket-group-level">
+                  4D {{ item.selectedTypeBao.text }}
+                </p>
+                <p></p>
+              </div>
+
+              <!-- Numbers -->
+              <div class="basketCircle">
+                <table style="width: 100%">
+                  <tbody>
+                    <tr v-for="(nums, key) in item.numbers" :key="key">
+                      <td style="width: 10%">
+                        <span class="key">
+                          {{ $commonBuildABCAll(key + 1) }}
+                        </span>
+                      </td>
+                      <td style="width: 30%">
+                        <span style="font-weight: bold">
+                          {{ nums.numbers.join("") }}
+                        </span>
+                        <span>&emsp;</span>
+                        <span
+                          style="color: orange"
+                          v-if="nums.numberTextView != ''"
+                        >
+                          <i>{{ nums.numberTextView }}</i>
+                        </span>
+                      </td>
+                      <td style="width: 40%; color: red">
+                        {{ $formatMoney({ amount: nums.price * 10000 }) }}đ
+                      </td>
+                      <td style="text-align: right; padding-right: 10px">
+                        <span
+                          class="step_btn"
+                          @click="cancelNumberRow(index, key, item.category)"
+                        >
+                          <i class="fa fa-trash-o"></i>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <br />
+              <!-- Ky Quay -->
+              <v-row
+                style="margin: 0"
+                class="basket-font-size-ky"
+                v-for="(ticket, t) in item.tickets"
+                :key="t"
+              >
+                <v-col cols="3" style="padding: 0" class="pl-1">
+                  <p><strong>Kỳ :</strong> #{{ ticket.drawCode }}</p>
+                </v-col>
+                <v-col cols="9" style="padding: 0">
+                  <p>
+                    <strong>Ngày :</strong>
+                    {{ ticket.openDate | day }} {{ ticket.openDate | time }}
+                  </p>
+                </v-col>
+              </v-row>
+
+              <!-- Price -->
+              <div class="form-group basket-border-top mb-3">
+                <v-row class="basket-font-size-money" style="margin: 0">
+                  <v-col cols="8" class="text-left pl-1" style="padding: 0">
+                    <strong>
+                      VÉ {{ index + 1 }} :
+                      <span style="color: red">
+                        {{ $formatMoney({ amount: item.totalPrice }) }}đ
+                      </span>
+                    </strong>
+                  </v-col>
+                  <v-col cols="4" class="text-right" style="padding: 0">
+                    <a
+                      @click="basketCancelDonhang(index, item.category)"
+                      href="javascript:void(0)"
+                    >
+                      <i
+                        class="fa fa-trash-o"
+                        style="color: red; font-size: 14px"
+                      ></i>
+                      <strong>HỦY VÉ</strong>
+                    </a>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </div>
+
           <!-- Max3DPlus -->
           <div
             class="form-group mb-3"
@@ -495,8 +593,18 @@ export default {
   methods: {
     cancelNumberRow(itemCart, rowNum, catRow) {
       let strRow = this.$commonBuildABCAll(rowNum + 1);
-      let strNums = this.dataCart[itemCart].numbers[rowNum].toString();
-      strNums = strNums.replaceAll(",", " ");
+      let strNums = "";
+      if (this.dataCart[itemCart].category == 5) {
+        strNums =
+          this.dataCart[itemCart].numbers[rowNum].from +
+          " " +
+          this.dataCart[itemCart].numbers[rowNum].to;
+      } else if (this.dataCart[itemCart].category == 2) {
+        strNums = this.dataCart[itemCart].numbers[rowNum].numbers.join("");
+      } else {
+        strNums = this.dataCart[itemCart].numbers[rowNum].join(" ");
+      }
+
       this.msgConfirm = "Xóa : " + strRow + " " + strNums + " ?";
       this.indexDelOne = itemCart;
       this.numRowDelOne = rowNum;
@@ -516,25 +624,27 @@ export default {
         this.totalPrice =
           this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
         this.dataCart.splice(this.indexDelOne, 1);
-        this.renewCookieCart();
-        this.closeConfirmDel();
       }
       //Mega645
       if (this.delCategory == 1) {
         this.totalPrice =
           this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
         this.dataCart.splice(this.indexDelOne, 1);
-        this.renewCookieCart();
-        this.closeConfirmDel();
       }
       //OmMax3DPlus
       if (this.delCategory == 5) {
         this.totalPrice =
           this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
         this.dataCart.splice(this.indexDelOne, 1);
-        this.renewCookieCart();
-        this.closeConfirmDel();
       }
+      //Max4D
+      if (this.delCategory == 2) {
+        this.totalPrice =
+          this.totalPrice - this.dataCart[this.indexDelOne].totalPrice;
+        this.dataCart.splice(this.indexDelOne, 1);
+      }
+      this.renewCookieCart();
+      this.closeConfirmDel();
     },
     delRowTicket() {
       // Power655
@@ -567,7 +677,29 @@ export default {
           this.numRowDelOne
         ].price;
 
-        let priceRow = defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
+        let priceRow =
+          defaultPrice * this.dataCart[this.indexDelOne].tickets.length;
+        this.deleteRow(priceRow);
+      }
+
+      if (this.delCategory == 2) {
+        let typeBao = this.dataCart[this.indexDelOne].selectedTypeBao.value;
+        let numberTextView = 1;
+        if (typeBao == 3 || typeBao == 4 || typeBao == 5) {
+          let text = this.dataCart[this.indexDelOne].numbers[this.numRowDelOne]
+            .numberTextView;
+          text = text.replaceAll("x", "");
+          numberTextView = parseInt(text);
+        }
+        let defaultPrice =
+          this.dataCart[this.indexDelOne].numbers[this.numRowDelOne].price *
+          10000;
+
+        let priceRow =
+          defaultPrice *
+          this.dataCart[this.indexDelOne].tickets.length *
+          numberTextView;
+
         this.deleteRow(priceRow);
       }
     },
@@ -613,6 +745,9 @@ export default {
           price = price + item.totalPrice;
         }
         if (item.category == 5) {
+          price = price + item.totalPrice;
+        }
+        if (item.category == 2) {
           price = price + item.totalPrice;
         }
       });

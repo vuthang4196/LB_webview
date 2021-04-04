@@ -331,6 +331,14 @@ export default function (context, inject) {
         cartData.push(item);
       });
 
+      let cartMax4D =
+        Cookies.get("LUCKYBEST_max4D") !== undefined
+          ? JSON.parse(Cookies.get("LUCKYBEST_max4D"))
+          : [];
+      cartMax4D.map(function (item, index) {
+        cartData.push(item);
+      });
+
       let cartMax3DPlus =
         Cookies.get("LUCKYBEST_Max3DPlus") !== undefined
           ? JSON.parse(Cookies.get("LUCKYBEST_Max3DPlus"))
@@ -359,6 +367,7 @@ export default function (context, inject) {
       let newCartMega645 = [];
       let newCartOmMax3DPlus = [];
       let newCartMax3DPlus = [];
+      let newCartMax4D = [];
       dataCart.map(function (item, index) {
         //Power655
         if (item.category == 3) {
@@ -367,6 +376,10 @@ export default function (context, inject) {
         //Mega645
         if (item.category == 1) {
           newCartMega645.push(item);
+        }
+        //Max4D
+        if (item.category == 2) {
+          newCartMax4D.push(item);
         }
         //Max3DPlus
         if (item.category == 5 && item.om == false) {
@@ -381,11 +394,15 @@ export default function (context, inject) {
       Cookies.remove("LUCKYBEST_Mega645");
       Cookies.remove("LUCKYBEST_Max3DPlus");
       Cookies.remove("LUCKYBEST_omMax3DPlus");
+      Cookies.remove("LUCKYBEST_max4D");
       if (newCartPower655.length) {
         Cookies.set("LUCKYBEST_Power655", JSON.stringify(newCartPower655), {});
       }
       if (newCartMega645.length) {
         Cookies.set("LUCKYBEST_Mega645", JSON.stringify(newCartMega645), {});
+      }
+      if (newCartMax4D.length) {
+        Cookies.set("LUCKYBEST_max4D", JSON.stringify(newCartMax4D), {});
       }
       if (newCartMax3DPlus.length) {
         Cookies.set("LUCKYBEST_Max3DPlus", JSON.stringify(newCartMax3DPlus), {});
@@ -406,58 +423,126 @@ export default function (context, inject) {
       var giaveVND = 10000;
 
       if (typeBao == 3) {
-          array_elements.sort();
-  
-          var current = null;
-          var cnt = 0;
-          var arrCount = new Array();
-          for (var i = 0; i < array_elements.length; i++) {
-              if (array_elements[i] != current) {
-                  if (cnt > 0) {
-                      arrCount.push(current);
-                  }
-                  current = array_elements[i];
-                  cnt = 1;
-              } else {
-                  cnt++;
-              }
-          }
-          if (cnt > 0) {
+        array_elements.sort();
+
+        var current = null;
+        var cnt = 0;
+        var arrCount = new Array();
+        for (var i = 0; i < array_elements.length; i++) {
+          if (array_elements[i] != current) {
+            if (cnt > 0) {
               arrCount.push(current);
+            }
+            current = array_elements[i];
+            cnt = 1;
+          } else {
+            cnt++;
           }
-  
-          var countsObj = {};
-          var flagV2 = false;
-          for (var ci = 0; ci < array_elements.length; ci++) {
-              var num = array_elements[ci];
-              countsObj[num] = countsObj[num] ? countsObj[num] + 1 : 1;
+        }
+        if (cnt > 0) {
+          arrCount.push(current);
+        }
+
+        var countsObj = {};
+        var flagV2 = false;
+        for (var ci = 0; ci < array_elements.length; ci++) {
+          var num = array_elements[ci];
+          countsObj[num] = countsObj[num] ? countsObj[num] + 1 : 1;
+        }
+
+        if (arrCount.length == 2) {
+          var numberOne1 = countsObj[arrCount[0]];
+          var numberOne2 = countsObj[arrCount[1]];
+          if (numberOne1 == 3 || numberOne2 == 3) {
+            flagV2 = true;
           }
-  
-          if (arrCount.length == 2) {
-              var numberOne1 = countsObj[arrCount[0]];
-              var numberOne2 = countsObj[arrCount[1]];
-              if (numberOne1 == 3 || numberOne2 == 3) {
-                  flagV2 = true;
-              }
-          }
-  
-          var numberTextView = 1;
-          if (arrCount.length == 2 && flagV2) {
-              numberTextView = 4;
-          } else if (arrCount.length == 2) {
-              numberTextView = 6;
-          } else if (arrCount.length == 3) {
-              numberTextView = 12;
-          } else if (arrCount.length == 4) {
-              numberTextView = 24;
-          }
-  
-          giaveVND = giaveVND * numberTextView;
+        }
+
+        var numberTextView = 1;
+        if (arrCount.length == 2 && flagV2) {
+          numberTextView = 4;
+        } else if (arrCount.length == 2) {
+          numberTextView = 6;
+        } else if (arrCount.length == 3) {
+          numberTextView = 12;
+        } else if (arrCount.length == 4) {
+          numberTextView = 24;
+        }
+
+        giaveVND = giaveVND * numberTextView;
       } else if (typeBao == 4 || typeBao == 5) {
-          giaveVND = 100000;
+        giaveVND = 100000;
       }
-  
+
       return giaveVND;
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  inject('commonMax4DBuildToHopByGroup', payload => {
+    try {
+      var html = '';
+      let group = payload.typeBao;
+      if (group == 2 || group == 3) {
+
+        let array_elements = payload.numbers
+        array_elements.sort();
+
+        var current = null;
+        var cnt = 0;
+        var arrCount = new Array();
+        for (var i = 0; i < array_elements.length; i++) {
+          if (array_elements[i] != current) {
+            if (cnt > 0) {
+              arrCount.push(current);
+            }
+            current = array_elements[i];
+            cnt = 1;
+          } else {
+            cnt++;
+          }
+        }
+        if (cnt > 0) {
+          arrCount.push(current);
+        }
+
+        var countsObj = {};
+        var flagV2 = false;
+        for (var ci = 0; ci < array_elements.length; ci++) {
+          var num = array_elements[ci];
+          countsObj[num] = countsObj[num] ? countsObj[num] + 1 : 1;
+        }
+
+        if (arrCount.length == 2) {
+          var numberOne1 = countsObj[arrCount[0]];
+          var numberOne2 = countsObj[arrCount[1]];
+          if (numberOne1 == 3 || numberOne2 == 3) {
+            flagV2 = true;
+          }
+        }
+
+        var numberTextView = 0;
+        if (arrCount.length == 2 && flagV2) {
+          numberTextView = 4;
+        } else if (arrCount.length == 2) {
+          numberTextView = 6;
+        } else if (arrCount.length == 3) {
+          numberTextView = 12;
+        } else if (arrCount.length == 4) {
+          numberTextView = 24;
+        }
+
+        if (group == 3) {
+          numberTextView = "x" + numberTextView;
+        }
+
+        html += numberTextView;
+      } else if (group == 4 || group == 5) {
+        html = "x10";
+      }
+      //    console.log("boi so : ");
+      //    console.log(html);
+      return html;
     } catch (e) {
       console.log(e)
     }
